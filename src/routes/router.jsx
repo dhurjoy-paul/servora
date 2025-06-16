@@ -10,30 +10,33 @@ import SignUp from "../pages/SignUp";
 const router = createBrowserRouter([
   {
     path: '/',
-    Component: HomeLayout,
+    element: <HomeLayout />,
     hydrateFallbackElement: <Loader />,
     children: [
       {
         index: true,
-        Component: Home,
-      }
-    ]
+        element: <Home />,
+      },
+    ],
   },
   {
     path: '/auth',
-    Component: AuthLayout,
+    element: <AuthLayout />,
     children: [
       {
         path: '/auth/login',
-        Component: Login,
+        element: <Login />,
       },
       {
         path: '/auth/sign-up',
-        Component: SignUp,
-      }
-    ]
+        element: <SignUp />,
+      },
+    ],
   },
-  { path: '/*', Component: NotFoundPage }
-])
+  {
+    path: '/*',
+    element: <NotFoundPage />,
+  },
+]);
 
 export default router;
