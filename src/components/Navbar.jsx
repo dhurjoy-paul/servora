@@ -138,11 +138,7 @@ const Navbar = () => {
       {/* Main Navbar */}
       <div className={`w-full h-min top-0 z-50 fixed transition-transform duration-300 ease-in-out py-2
           ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}
-        style={{
-          backdropFilter: 'blur(10px)',
-          WebkitBackdropFilter: 'blur(10px)',
-          backgroundColor: 'rgba(255, 255, 255, 0.5)'
-        }}
+        style={{ backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}
       >
         <div className="flex items-center p-2 max-w-7xl mx-auto">
           <div className="navbar-start">
@@ -151,25 +147,25 @@ const Navbar = () => {
             </Link>
           </div>
 
-          <div className="flex items-center justify-end navbar-end gap-2">
-            {/* Desktop navigation menu */}
-            <div className='flex justify-between items-center gap-2 md:gap-7'>
-              <NavMenu user={user} />
-              {user
-                ? (<Link onClick={handleSignOut}
-                  className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2 text-center">
-                  Logout
-                </Link>)
-                : (<Link to={`/auth/login`}
-                  className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2 text-center">
-                  Login
-                </Link>)
-              }
-            </div>
+          <div className="flex items-center navbar-center gap-2">
 
-            {/* Placeholder for burger icon area */}
-            <div className="md:hidden w-8 h-8"></div>
+            <NavMenu user={user} />
           </div>
+          <div className='navbar-end justify-end mr-6 md:mr-0'>
+            {user
+              ? (<Link onClick={handleSignOut}
+                className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br font-semibold rounded-lg px-5 py-2 text-center">
+                Logout
+              </Link>)
+              : (<Link to={`/auth/login`}
+                className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br font-semibold rounded-lg px-5 py-2 text-center">
+                Login
+              </Link>)
+            }
+          </div>
+
+          {/* Placeholder for burger icon area */}
+          <div className="md:hidden w-8 h-8"></div>
         </div>
       </div>
     </>
