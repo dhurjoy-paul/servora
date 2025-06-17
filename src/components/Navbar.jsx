@@ -1,45 +1,179 @@
-import { NavLink } from "react-router";
+import { useCallback, useEffect, useState } from 'react';
+import { slide as Menu } from 'react-burger-menu';
+import { Link, NavLink, useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
+import '../styles/burger-menu.css';
+// import { AuthContext } from '../contexts/AuthContext';
+import { FaChevronDown, FaChevronUp, FaHome } from 'react-icons/fa';
+import { FaFilePen } from 'react-icons/fa6';
+import { HiWrenchScrewdriver } from 'react-icons/hi2';
+import { MdAssignmentAdd, MdCollectionsBookmark, MdManageAccounts } from 'react-icons/md';
+import { TbLayoutDashboardFilled } from 'react-icons/tb';
+import Heading from './Heading';
+import NavMenu from './ui/NavMenu';
 
 const Navbar = () => {
+  // const { user, signOutUser } = useContext(AuthContext);
+  const user = true;
+  const navigate = useNavigate();
+
+  const ToastSuccess = () => (
+    <span className='text-lg text-green-600 font-semibold font-poppins'>Logout Successful</span>
+  );
+  const ToastFailed = () => (
+    <span className='text-lg text-red-600 font-semibold font-poppins'>Logout failed</span>
+  );
+  const notifySuccess = () => toast.success(<ToastSuccess />);
+  const notifyFailed = () => toast.error(<ToastFailed />);
+
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showDashboardSubMenu, setShowDashboardSubMenu] = useState(false);
+
+  const NAVBAR_HEIGHT = 80; // Assuming this is your actual navbar height
+
+  const handleScroll = useCallback(() => {
+    const currentScrollY = window.scrollY;
+
+    if (currentScrollY > lastScrollY && currentScrollY > NAVBAR_HEIGHT) {
+      setIsVisible(false);
+      setIsMenuOpen(false);
+    } else if (currentScrollY < lastScrollY || currentScrollY <= NAVBAR_HEIGHT) {
+      setIsVisible(true);
+    }
+    setLastScrollY(currentScrollY);
+  }, [lastScrollY, NAVBAR_HEIGHT]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [handleScroll]);
+
+  const handleStateChange = (state) => {
+    setIsMenuOpen(state.isOpen);
+    if (!state.isOpen) {
+      setShowDashboardSubMenu(false);
+    }
+  };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+    setShowDashboardSubMenu(false);
+  };
+
+  const toggleDashboardSubMenu = () => {
+    setShowDashboardSubMenu(prev => !prev);
+  };
+
+  const handleSignOut = () => {
+    // signOutUser()
+    //   .then(() => {
+    notifySuccess();
+    navigate('/');
+    closeMenu();
+    //   }).catch(error => { console.log(error); notifyFailed() })
+  };
+
   const navLinkClass = ({ isActive }) =>
     isActive
-      ? "text-blue-500 font-semibold"
-      : "text-white hover:text-blue-400";
+      ? "text-brand whitespace-nowrap"
+      : "hover:text-brand whitespace-nowrap";
 
   return (
-    <div className="navbar bg-base-100 shadow-md px-4">
-      <div className="flex-1">
-        <NavLink to="/" className="text-xl font-bold text-white">
-          Fixora
-        </NavLink>
+    <>
+      {/* Burger Menu for mobile and tablet */}
+      <div className="md:hidden">
+        <Menu right width={340} isOpen={isMenuOpen} onStateChange={handleStateChange} className=''>
+
+          {/* Main Menu items */}
+          <NavLink onClick={closeMenu} to="/" className={({ isActive }) => `bm-item ${navLinkClass({ isActive })}`}>
+            <div className='flex items-center gap-4'><FaHome className="inline-block text-2xl" /><span>Home</span></div>
+          </NavLink>
+          <NavLink onClick={closeMenu} to="/services" className={({ isActive }) => `bm-item ${navLinkClass({ isActive })}`}>
+            <div className='flex items-center gap-4'><HiWrenchScrewdriver className="inline-block text-2xl" /><span>Services</span></div>
+          </NavLink>
+
+          {/* Dashboard Menu Item */}
+          <div onClick={toggleDashboardSubMenu} className={`bm-item bm-dashboard-header ${showDashboardSubMenu ? 'active' : ''}`}>
+            <div className='flex gap-4 items-center'>
+              <TbLayoutDashboardFilled className="inline-block text-2xl" /> DashBoard
+              {showDashboardSubMenu
+                ? (<FaChevronUp className="inline-block text-lg" />)
+                : (<FaChevronDown className="inline-block text-lg" />)
+              }
+            </div>
+          </div>
+
+          {/* Dashboard Submenu */}
+          {showDashboardSubMenu && (
+            <ul className="bm-submenu-list">
+              <li>
+                <NavLink onClick={closeMenu} to="/add-service" className={({ isActive }) => `bm-submenu-item ${navLinkClass({ isActive })}`}>
+                  <div className='flex items-center gap-4'><MdAssignmentAdd className="inline-block text-2xl" /><span>Add Service</span></div>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink onClick={closeMenu} to="/manage-service" className={({ isActive }) => `bm-submenu-item ${navLinkClass({ isActive })}`}>
+                  <div className='flex items-center gap-4'><MdManageAccounts className="inline-block text-2xl" /><span>Manage Services</span></div>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink onClick={closeMenu} to="/booked-service" className={({ isActive }) => `bm-submenu-item ${navLinkClass({ isActive })}`}>
+                  <div className='flex items-center gap-4'><MdCollectionsBookmark className="inline-block text-2xl" /><span>Booked-Service</span></div>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink onClick={closeMenu} to="/service-to-do" className={({ isActive }) => `bm-submenu-item ${navLinkClass({ isActive })}`}>
+                  <div className='flex items-center gap-4'><FaFilePen className="inline-block text-2xl" /><span>Service-To-Do</span></div>
+                </NavLink>
+              </li>
+            </ul>
+          )}
+        </Menu>
       </div>
 
-      <div className="flex-none hidden md:flex gap-4">
-        <NavLink to="/features" className={navLinkClass}>Features</NavLink>
-        <NavLink to="/integrations" className={navLinkClass}>Integrations</NavLink>
-        <NavLink to="/about" className={navLinkClass}>About</NavLink>
-        <NavLink to="/pricing" className={navLinkClass}>Pricing</NavLink>
-        <NavLink to="/contact" className={navLinkClass}>Contact</NavLink>
-
-        <div className="dropdown dropdown-hover">
-          <div tabIndex={0} role="button" className="text-white hover:text-blue-400 flex items-center gap-1">
-            More <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
+      {/* Main Navbar */}
+      <div className={`w-full h-min top-0 z-50 fixed transition-transform duration-300 ease-in-out py-2
+          ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}
+        style={{
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
+          backgroundColor: 'rgba(255, 255, 255, 0.5)'
+        }}
+      >
+        <div className="flex items-center p-2 max-w-7xl mx-auto">
+          <div className="navbar-start">
+            <Link to='/' className="flex items-center gap-2 cursor-pointer group">
+              <Heading />
+            </Link>
           </div>
-          <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-200 rounded-box w-52">
-            <li><NavLink to="/team" className={navLinkClass}>Team</NavLink></li>
-            <li><NavLink to="/careers" className={navLinkClass}>Careers</NavLink></li>
-            <li><NavLink to="/blog" className={navLinkClass}>Blog</NavLink></li>
-            <li><NavLink to="/help" className={navLinkClass}>Help Center</NavLink></li>
-          </ul>
+
+          <div className="flex items-center justify-end navbar-end gap-2">
+            {/* Desktop navigation menu */}
+            <div className='flex justify-between items-center gap-2 md:gap-7'>
+              <NavMenu user={user} />
+              {user
+                ? (<Link onClick={handleSignOut}
+                  className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2 text-center">
+                  Logout
+                </Link>)
+                : (<Link to={`/auth/login`}
+                  className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2 text-center">
+                  Login
+                </Link>)
+              }
+            </div>
+
+            {/* Placeholder for burger icon area */}
+            <div className="md:hidden w-8 h-8"></div>
+          </div>
         </div>
       </div>
-
-      <div className="flex gap-2 ml-4">
-        <NavLink to="/auth/login" className="btn btn-sm btn-ghost text-white">Log in</NavLink>
-        <NavLink to="/signup" className="btn btn-sm btn-primary">Start free trial</NavLink>
-      </div>
-    </div>
+    </>
   );
-};
+}
 
 export default Navbar;

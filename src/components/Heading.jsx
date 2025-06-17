@@ -1,12 +1,9 @@
-import { Link } from "react-router";
-import logo from './servora-logo.jpg';
-
 const Heading = () => {
   return (
-    <Link to={`/`}>
-      <img src={logo} alt={`Servora (Image not found)`} />
-      <p>Servora</p>
-    </Link>
+    <div className="flex shrink-0 items-center gap-1">
+      <img className="w-7" src="favicon.jpg" alt={`Servora (Image not found)`} />
+      <p className="font-hanuman font-semibold text-2xl text-text ml-1 mt-2">Servora</p> {/* Removed place-items-end */}
+    </div>
   );
 };
 

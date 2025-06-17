@@ -7,17 +7,27 @@
 
 @layer base {
   :root {
-    --color-background: theme(--color-zinc-300);
-    --color-text: theme(--color-zinc-900);
+    --color-brand: #2463ea;
+    --color-text: #0e0e0e;
+    --color-menu: #fffefe;
+    --color-background: #fffefe;
   }
 
   .dark {
+    --color-brand: #6b9cff;
+    --color-text: theme(--color-white);
+    --color-menu: #1d1c1f;
     --color-background: theme(--color-zinc-900);
-    --color-text: theme(--color-zinc-100);
+    /* --color-brand: #82a7ff; */
   }
 }
 
 @theme {
+  --font-hanuman: "Hanuman", serif;
+  --font-ibm: "IBM Plex Sans", sans-serif;
+  --font-roboto-mono: "Roboto Mono", monospace;
+  --color-brand: var(--color-brand);
   --color-background: var(--color-background);
   --color-text: var(--color-text);
+  --color-menu: var(--color-menu);
 }

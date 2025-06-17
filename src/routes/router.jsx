@@ -5,6 +5,7 @@ import HomeLayout from "../layouts/HomeLayout";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import NotFoundPage from "../pages/NotFoundPage";
+import Services from "../pages/Services";
 import SignUp from "../pages/SignUp";
 
 const router = createBrowserRouter([
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
         index: true,
         element: <Home />,
       },
+      {
+        path: '/services',
+        element: <Services />
+      }
     ],
   },
   {
@@ -24,17 +29,17 @@ const router = createBrowserRouter([
     element: <AuthLayout />,
     children: [
       {
-        path: '/auth/login',
+        path: 'login',
         element: <Login />,
       },
       {
-        path: '/auth/sign-up',
+        path: 'sign-up',
         element: <SignUp />,
       },
     ],
   },
   {
-    path: '/*',
+    path: '*',
     element: <NotFoundPage />,
   },
 ]);

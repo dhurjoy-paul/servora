@@ -1,11 +1,9 @@
 import { NavLink, useLocation } from "react-router";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 const tabs = [
   { label: "Home", to: "/" },
-  { label: "All Recipes", to: "/all-recipes" },
-  { label: "Add Recipe", to: "/add-recipe" },
-  { label: "My Recipes", to: "/my-recipes" },
+  { label: "Services", to: "/test" }
 ];
 
 const ChipTabs = () => {
@@ -18,16 +16,18 @@ const ChipTabs = () => {
           {({ isActive }) => (
             <div className={`text-base px-3 py-1 rounded-md font-medium transition-colors
               ${isActive
-                  ? "text-white"
-                  : "text-base-content hover:text-primary"
-                }`}
+                ? "text-white"
+                : "text-base-content hover:text-primary"
+              }`}
             >
               <span className="relative z-10">{tab.label}</span>
               {isActive && (
-                <motion.span layoutId="active-pill"
-                  className="absolute inset-0 z-0 bg-primary rounded-md"
-                  transition={{ type: "spring", duration: 0.5 }}
-                />
+                <AnimatePresence>
+                  <motion.span layoutId="active-pill"
+                    className="absolute inset-0 z-0 bg-primary rounded-md"
+                    transition={{ type: "spring", duration: 0.5 }}
+                  />
+                </AnimatePresence>
               )}
             </div>
           )}
