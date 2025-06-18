@@ -14,7 +14,7 @@ import NavMenu from './ui/NavMenu';
 
 const Navbar = () => {
   // const { user, signOutUser } = useContext(AuthContext);
-  const user = true;
+  const user = false;
   const navigate = useNavigate();
 
   const ToastSuccess = () => (
@@ -31,7 +31,7 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showDashboardSubMenu, setShowDashboardSubMenu] = useState(false);
 
-  const NAVBAR_HEIGHT = 80; // Assuming this is your actual navbar height
+  const NAVBAR_HEIGHT = 80;
 
   const handleScroll = useCallback(() => {
     const currentScrollY = window.scrollY;
@@ -85,8 +85,9 @@ const Navbar = () => {
   return (
     <>
       {/* Burger Menu for mobile and tablet */}
-      <div className="md:hidden">
-        <Menu right width={340} isOpen={isMenuOpen} onStateChange={handleStateChange} className=''>
+      <div className="md:hidden ">
+        <Menu right isOpen={isMenuOpen} onStateChange={handleStateChange}
+          width={user ? 380 : 260}>
 
           {/* Main Menu items */}
           <NavLink onClick={closeMenu} to="/" className={({ isActive }) => `bm-item ${navLinkClass({ isActive })}`}>
@@ -97,41 +98,46 @@ const Navbar = () => {
           </NavLink>
 
           {/* Dashboard Menu Item */}
-          <div onClick={toggleDashboardSubMenu} className={`bm-item bm-dashboard-header ${showDashboardSubMenu ? 'active' : ''}`}>
-            <div className='flex gap-4 items-center'>
-              <TbLayoutDashboardFilled className="inline-block text-2xl" /> DashBoard
-              {showDashboardSubMenu
-                ? (<FaChevronUp className="inline-block text-lg" />)
-                : (<FaChevronDown className="inline-block text-lg" />)
-              }
+          {
+            user &&
+            <div onClick={toggleDashboardSubMenu} className={`bm-item bm-dashboard-header ${showDashboardSubMenu ? 'active' : ''}`}>
+              <div className='flex gap-4 items-center'>
+                <TbLayoutDashboardFilled className="inline-block text-2xl" /> DashBoard
+                {showDashboardSubMenu
+                  ? (<FaChevronUp className="inline-block text-lg" />)
+                  : (<FaChevronDown className="inline-block text-lg" />)
+                }
+              </div>
             </div>
-          </div>
+          }
 
           {/* Dashboard Submenu */}
-          {showDashboardSubMenu && (
-            <ul className="bm-submenu-list">
-              <li>
-                <NavLink onClick={closeMenu} to="/add-service" className={({ isActive }) => `bm-submenu-item ${navLinkClass({ isActive })}`}>
-                  <div className='flex items-center gap-4'><MdAssignmentAdd className="inline-block text-2xl" /><span>Add Service</span></div>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink onClick={closeMenu} to="/manage-service" className={({ isActive }) => `bm-submenu-item ${navLinkClass({ isActive })}`}>
-                  <div className='flex items-center gap-4'><MdManageAccounts className="inline-block text-2xl" /><span>Manage Services</span></div>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink onClick={closeMenu} to="/booked-service" className={({ isActive }) => `bm-submenu-item ${navLinkClass({ isActive })}`}>
-                  <div className='flex items-center gap-4'><MdCollectionsBookmark className="inline-block text-2xl" /><span>Booked-Service</span></div>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink onClick={closeMenu} to="/service-to-do" className={({ isActive }) => `bm-submenu-item ${navLinkClass({ isActive })}`}>
-                  <div className='flex items-center gap-4'><FaFilePen className="inline-block text-2xl" /><span>Service-To-Do</span></div>
-                </NavLink>
-              </li>
-            </ul>
-          )}
+          {
+            (user & showDashboardSubMenu) && (
+              <ul className="bm-submenu-list">
+                <li>
+                  <NavLink onClick={closeMenu} to="/add-service" className={({ isActive }) => `bm-submenu-item ${navLinkClass({ isActive })}`}>
+                    <div className='flex items-center gap-4'><MdAssignmentAdd className="inline-block text-2xl" /><span>Add Service</span></div>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink onClick={closeMenu} to="/manage-service" className={({ isActive }) => `bm-submenu-item ${navLinkClass({ isActive })}`}>
+                    <div className='flex items-center gap-4'><MdManageAccounts className="inline-block text-2xl" /><span>Manage Services</span></div>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink onClick={closeMenu} to="/booked-service" className={({ isActive }) => `bm-submenu-item ${navLinkClass({ isActive })}`}>
+                    <div className='flex items-center gap-4'><MdCollectionsBookmark className="inline-block text-2xl" /><span>Booked-Service</span></div>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink onClick={closeMenu} to="/service-to-do" className={({ isActive }) => `bm-submenu-item ${navLinkClass({ isActive })}`}>
+                    <div className='flex items-center gap-4'><FaFilePen className="inline-block text-2xl" /><span>Service-To-Do</span></div>
+                  </NavLink>
+                </li>
+              </ul>
+            )
+          }
         </Menu>
       </div>
 
@@ -151,7 +157,7 @@ const Navbar = () => {
 
             <NavMenu user={user} />
           </div>
-          <div className='navbar-end justify-end mr-6 md:mr-0'>
+          <div className='navbar-end justify-end mr-16 md:mr-0'>
             {user
               ? (<Link onClick={handleSignOut}
                 className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br font-semibold rounded-lg px-5 py-2 text-center">
@@ -163,9 +169,6 @@ const Navbar = () => {
               </Link>)
             }
           </div>
-
-          {/* Placeholder for burger icon area */}
-          <div className="md:hidden w-8 h-8"></div>
         </div>
       </div>
     </>
