@@ -7,27 +7,44 @@
 
 @layer base {
   :root {
-    --color-brand: #2463ea;
+    --color-brand: #145cfc;
     --color-text: #0e0e0e;
+    --color-para: theme(--color-gray-700);
     --color-menu: #fffefe;
     --color-background: #fffefe;
   }
 
   .dark {
-    --color-brand: #6b9cff;
+    --color-brand: #145cfc;
     --color-text: theme(--color-white);
+    --color-para: theme(--color-gray-400);
     --color-menu: #1d1c1f;
     --color-background: theme(--color-zinc-900);
-    /* --color-brand: #82a7ff; */
   }
 }
 
 @theme {
+  --breakpoint-xs: 32rem;
   --font-hanuman: "Hanuman", serif;
   --font-ibm: "IBM Plex Sans", sans-serif;
   --font-roboto-mono: "Roboto Mono", monospace;
   --color-brand: var(--color-brand);
   --color-background: var(--color-background);
   --color-text: var(--color-text);
+  --color-para: var(--color-para);
   --color-menu: var(--color-menu);
+}
+
+.underline_animate::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 4px;
+  width: 100%;
+  height: 4px;
+  background: none;
+  border-bottom: 4px solid #3b82f6;
+  border-radius: 9999px;
+  transform: scaleX(1);
+  transform-origin: left;
 }

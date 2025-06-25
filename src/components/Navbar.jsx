@@ -7,14 +7,14 @@ import '../styles/burger-menu.css';
 import { FaChevronDown, FaChevronUp, FaHome } from 'react-icons/fa';
 import { FaFilePen } from 'react-icons/fa6';
 import { HiWrenchScrewdriver } from 'react-icons/hi2';
-import { MdAssignmentAdd, MdCollectionsBookmark, MdManageAccounts } from 'react-icons/md';
+import { MdAssignmentAdd, MdCollectionsBookmark, MdLogin, MdLogout, MdManageAccounts } from 'react-icons/md';
 import { TbLayoutDashboardFilled } from 'react-icons/tb';
 import Heading from './Heading';
 import NavMenu from './ui/NavMenu';
 
 const Navbar = () => {
   // const { user, signOutUser } = useContext(AuthContext);
-  const user = false;
+  const user = true;
   const navigate = useNavigate();
 
   const ToastSuccess = () => (
@@ -85,9 +85,9 @@ const Navbar = () => {
   return (
     <>
       {/* Burger Menu for mobile and tablet */}
-      <div className="md:hidden ">
+      <div className="md:hidden">
         <Menu right isOpen={isMenuOpen} onStateChange={handleStateChange}
-          width={user ? 380 : 260}>
+          width={user ? 335 : 260} className='bg-black'>
 
           {/* Main Menu items */}
           <NavLink onClick={closeMenu} to="/" className={({ isActive }) => `bm-item ${navLinkClass({ isActive })}`}>
@@ -160,12 +160,12 @@ const Navbar = () => {
           <div className='navbar-end justify-end mr-16 md:mr-0'>
             {user
               ? (<Link onClick={handleSignOut}
-                className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br font-semibold rounded-lg px-5 py-2 text-center">
-                Logout
+                className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br font-semibold rounded-lg px-5 py-2 flex justify-center items-center gap-2">
+                <MdLogout size={22} /> Logout
               </Link>)
               : (<Link to={`/auth/login`}
-                className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br font-semibold rounded-lg px-5 py-2 text-center">
-                Login
+                className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br font-semibold rounded-lg px-5 py-2 flex justify-center items-center gap-2">
+                <MdLogin size={22} /> Login
               </Link>)
             }
           </div>
