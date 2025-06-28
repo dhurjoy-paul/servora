@@ -1,5 +1,6 @@
 import { lazy } from "react"
 import { Outlet } from "react-router"
+import Footer from "../components/Footer"
 import ThemeProvider from "../contexts/ThemeContext"
 const Navbar = lazy(() => import('../components/Navbar'))
 const GoTopBtn = lazy(() => import('../components/ui/GoTopBtn'))
@@ -12,10 +13,13 @@ const HomeLayout = () => {
         <Navbar />
         <main>
           <Outlet />
+
           <section className="fixed bottom-4 right-0 -translate-x-1/2 z-500 flex flex-col items-center space-y-2">
             <GoTopBtn />
             <ThemeToggle />
           </section>
+
+          <Footer />
         </main>
       </div>
     </ThemeProvider>

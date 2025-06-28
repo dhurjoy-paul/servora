@@ -3,9 +3,10 @@ const Banner = lazy(() => import('../components/Banner'));
 
 const Home = () => {
   return (
-    <div>
+    <main>
       <Banner />
-    </div>
+      
+    </main>
   )
 }
 export default Home

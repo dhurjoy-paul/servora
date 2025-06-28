@@ -7,7 +7,7 @@ const MarqueeUI = lazy(() => import('./ui/MarqueeUI'))
 
 const Banner = () => {
   return (
-    <section className="w-full min-h-screen pt-35 md:pt-45 pb-12 bg-gradient-to-b from-[#D3E1FA] to-white dark:from-[#07142F] dark:to-[#0f0e0e]">
+    <section className="w-full min-h-fit pt-35 md:pt-45 pb-20 bg-gradient-to-b from-[#D3E1FA] to-white dark:from-[#07142F] dark:to-[#0f0e0e]">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12">
 
         {/* Left Side */}
