@@ -1,16 +1,19 @@
+import { lazy } from 'react';
 import { FiArrowUpRight } from 'react-icons/fi';
 import { Link } from 'react-router';
-import Count from './Count';
-import RightSide from './RightSide';
+const Count = lazy(() => import('./Count'))
+const RightSide = lazy(() => import('./RightSide'))
+const MarqueeUI = lazy(() => import('./ui/MarqueeUI'))
 
 const Banner = () => {
   return (
-    <section className="w-full min-h-screen px-4 pt-40 md:px-12 md:pt-50 pb-12 bg-gradient-to-b from-[#D3E1FA] to-white dark:from-[#07142F] dark:to-[#0f0e0e]">
+    <section className="w-full min-h-screen pt-35 md:pt-45 pb-12 bg-gradient-to-b from-[#D3E1FA] to-white dark:from-[#07142F] dark:to-[#0f0e0e]">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12">
+
         {/* Left Side */}
-        <div className="flex-1 flex flex-col items-center lg:items-start gap-5 text-center lg:text-left">
-          <h1 className="text-4xl md:text-5xl items-start font-bold leading-tight">
-            <span className="text-blue-600 font-semibold italic">Home tasks? </span>
+        <div className="flex-1 flex flex-col items-center lg:items-start gap-5 text-center lg:text-left px-8 2xl:px-0">
+          <h1 className="text-[2.1rem] md:text-[2.75rem] items-start font-bold leading-tight">
+            <span className="text-4xl md:text-5xl text-blue-600 font-semibold italic">Home tasks? <br /> </span>
             Our experts have it covered.
           </h1>
           <p className="text-para max-w-full mx-auto lg:mx-0 relative inline-block">
@@ -45,20 +48,7 @@ const Banner = () => {
         <RightSide />
       </div>
 
-
-      {/* <Marquee
-      fade={true}
-      direction="left"
-      reverse={false}
-      pauseOnHover={false}
-      className="" // pass class to change gap or speed
-      innerClassName="" // pass class to change gap or speed
-    >
-      <div>Content 1</div>
-      <div>Content 2</div>
-      <div>Content 3</div>
-      <div>Content 4</div>
-    </Marquee> */}
+      <MarqueeUI />
     </section>
   );
 };

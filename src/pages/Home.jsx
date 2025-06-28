@@ -1,4 +1,5 @@
-import Banner from "../components/Banner"
+import { lazy } from 'react';
+const Banner = lazy(() => import('../components/Banner'));
 
 const Home = () => {
   return (

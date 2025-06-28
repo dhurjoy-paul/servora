@@ -87,7 +87,7 @@ const Navbar = () => {
       {/* Burger Menu for mobile and tablet */}
       <div className="md:hidden">
         <Menu right isOpen={isMenuOpen} onStateChange={handleStateChange}
-          width={user ? 335 : 260} className='bg-black'>
+          width={user ? 335 : 260} s>
 
           {/* Main Menu items */}
           <NavLink onClick={closeMenu} to="/" className={({ isActive }) => `bm-item ${navLinkClass({ isActive })}`}>
@@ -146,7 +146,7 @@ const Navbar = () => {
           ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}
         style={{ backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}
       >
-        <div className="flex items-center p-2 max-w-7xl mx-auto">
+        <div className="flex items-center px-4 xl:px-0 py-2 md:py-2 max-w-7xl mx-auto">
           <div className="navbar-start">
             <Link to='/' className="flex items-center gap-2 cursor-pointer group">
               <Heading />
@@ -157,7 +157,7 @@ const Navbar = () => {
 
             <NavMenu user={user} />
           </div>
-          <div className='navbar-end justify-end mr-16 md:mr-0'>
+          <div className='navbar-end justify-end mr-14 md:mr-0'>
             {user
               ? (<Link onClick={handleSignOut}
                 className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br font-semibold rounded-lg px-5 py-2 flex justify-center items-center gap-2">

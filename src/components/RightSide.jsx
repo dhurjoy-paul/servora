@@ -10,7 +10,7 @@ const RightSide = () => {
   return (
     <>
       {/* Large device */}
-      <div className="flex-1 xs:grid hidden grid-cols-2 grid-rows-4 gap-4">
+      <div className="flex-1 xs:grid hidden grid-cols-2 grid-rows-4 gap-4  px-4 2xl:px-0">
         <div className="flex flex-col items-start gap-1">
           <div className="flex -space-x-3">
             {userImg.map((user, i) => <img key={i} className="size-12 rounded-full border-2 border-white" src={user} alt="user" />)}
@@ -32,7 +32,7 @@ const RightSide = () => {
       </div>
 
       {/* Small (xs) device */}
-      <div className="flex flex-col xs:hidden gap-4">
+      <div className="flex flex-col xs:hidden gap-4 px-4">
 
         <div className="grid grid-cols-6 grid-rows-4 gap-4">
 

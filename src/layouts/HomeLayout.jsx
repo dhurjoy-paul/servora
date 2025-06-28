@@ -1,8 +1,9 @@
+import { lazy } from "react"
 import { Outlet } from "react-router"
-import Navbar from "../components/Navbar"
-import GoTopBtn from "../components/ui/GoTopBtn"
-import ThemeToggle from "../components/ui/ThemeToggle"
 import ThemeProvider from "../contexts/ThemeContext"
+const Navbar = lazy(() => import('../components/Navbar'))
+const GoTopBtn = lazy(() => import('../components/ui/GoTopBtn'))
+const ThemeToggle = lazy(() => import('../components/ui/ThemeToggle'))
 
 const HomeLayout = () => {
   return (
