@@ -15,7 +15,7 @@ const RightSide = () => {
           <div className="flex -space-x-3">
             {userImg.map((user, i) => <img key={i} className="size-12 rounded-full border-2 border-white" src={user} alt="user" />)}
           </div>
-          <p className="text-text"><span className='text-2xl font-bold'>20k</span> Total Customers</p>
+          <p className="text-text font-funnel-display"><span className='text-2xl font-bold'>20k</span> Total Customers</p>
         </div>
 
         <img src={`https://i.ibb.co/tM87p21f/repairman-02.jpg`} alt="electrician" className="w-full row-span-2 rounded-xl object-cover" />
@@ -24,7 +24,7 @@ const RightSide = () => {
 
         <div className="flex justify-around items-center bg-[#d5e2fc] dark:bg-[#0B1F47] rounded-xl text-center pl-3 pr-4 lg:pl-7 lg:pr-9">
           <img className='size-20 ' src={`https://i.ibb.co/kV2XBVnw/satisfaction.png`} />
-          <div className='flex flex-col text-text'>
+          <div className='flex flex-col text-text font-funnel-displayc'>
             <p className="text-2xl font-bold">100%</p>
             <p className="text-sm w-fit">Satisfaction Guarantee</p>
           </div>

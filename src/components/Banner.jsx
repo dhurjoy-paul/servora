@@ -7,14 +7,13 @@ const MarqueeUI = lazy(() => import('./ui/MarqueeUI'))
 
 const Banner = () => {
   return (
-    <section className="w-full min-h-fit pt-35 md:pt-45 pb-20 bg-gradient-to-b from-[#D3E1FA] to-white dark:from-[#07142F] dark:to-[#0f0e0e]">
+    <section className="w-full min-h-fit pt-35 md:pt-45 pb-10 bg-gradient-to-b from-[#D3E1FA] to-white dark:from-[#07142F] dark:to-[#0f0e0e]">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12">
 
         {/* Left Side */}
         <div className="flex-1 flex flex-col items-center lg:items-start gap-5 text-center lg:text-left px-8 2xl:px-0">
           <h1 className="text-[2.1rem] md:text-[2.75rem] items-start font-bold leading-tight">
-            <span className="text-4xl md:text-5xl text-blue-600 font-semibold italic">Home tasks? <br /> </span>
-            Our experts have it covered.
+            <span className="text-4xl md:text-5xl text-brand font-ibm font-bold italic">Home tasks?</span> <br /> Our experts have it covered.
           </h1>
           <p className="text-para max-w-full mx-auto lg:mx-0 relative inline-block">
             Connect with trusted home service experts—from repairs to cleaning—all in one place. Hire professionals, get tasks done, and enjoy hassle-free help at your <span className="relative inline-block"> doorsteps.

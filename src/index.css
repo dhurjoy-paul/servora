@@ -27,13 +27,23 @@
   --breakpoint-xs: 32rem;
   --font-hanuman: "Hanuman", serif;
   --font-ibm: "IBM Plex Sans", sans-serif;
-  --font-roboto-mono: "Roboto Mono", monospace;
   --font-funnel-display: "Funnel Display", sans-serif;
   --color-brand: var(--color-brand);
   --color-background: var(--color-background);
   --color-text: var(--color-text);
   --color-para: var(--color-para);
   --color-menu: var(--color-menu);
+}
+
+.card_path {
+  clip-path: polygon(0 0, 74% 0, 83% 15%, 100% 15%, 100% 100%, 0 100%);
+
+  border-radius: 12px;
+}
+
+body,
+* {
+  /* cursor: none !important; Force hide default cursor */
 }
 
 .underline_animate::after {

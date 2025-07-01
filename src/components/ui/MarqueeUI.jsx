@@ -16,9 +16,9 @@ const marqueeDivs = [
 
 const MarqueeUI = () => {
   return (
-    <Marquee speed={60} direction='left' className="mt-16 mb-8 xl:mt-32 xl:mb-0 overflow-hidden no-scrollbar">
+    <Marquee speed={60} direction='left' className="mt-16 mb-8 xl:mb-0 overflow-hidden no-scrollbar">
       {
-        marqueeDivs.map((item, i) => <div key={i} className="text-2xl md:text-3xl font-semibold flex items-center gap-4">
+        marqueeDivs.map((item, i) => <div key={i} className="text-2xl md:text-3xl font-funnel-display font-semibold flex items-center gap-4">
           <span className="text-brand">{item.icon}</span> <span className="mr-18">{item.text} </span>
         </div>)
       }

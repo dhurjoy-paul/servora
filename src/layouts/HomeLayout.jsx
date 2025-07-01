@@ -9,7 +9,8 @@ const ThemeToggle = lazy(() => import('../components/ui/ThemeToggle'))
 const HomeLayout = () => {
   return (
     <ThemeProvider>
-      <div className="min-h-[300vh] bg-background">
+      {/* <CustomCursor /> */}
+      <div className="bg-background">
         <Navbar />
         <main>
           <Outlet />
