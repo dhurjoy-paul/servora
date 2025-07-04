@@ -1,17 +1,22 @@
-import { lazy } from "react"
 import { Outlet } from "react-router"
 import Footer from "../components/Footer"
+import Navbar from "../components/Navbar"
+import GoTopBtn from "../components/ui/GoTopBtn"
+import Loader from "../components/ui/Loader"
+import ThemeToggle from "../components/ui/ThemeToggle"
 import ThemeProvider from "../contexts/ThemeContext"
-const Navbar = lazy(() => import('../components/Navbar'))
-const GoTopBtn = lazy(() => import('../components/ui/GoTopBtn'))
-const ThemeToggle = lazy(() => import('../components/ui/ThemeToggle'))
+import DelayedSuspense from "../utils/DelayedSuspense"
+import RouteChangeLoader from "../utils/RouteChangeLoader"
+import ScrollToHashElement from "../utils/ScrollToHashElement"
 
 const HomeLayout = () => {
   return (
     <ThemeProvider>
       {/* <CustomCursor /> */}
-      <div className="bg-background">
-        <Navbar />
+      <RouteChangeLoader />
+      <ScrollToHashElement />
+      <Navbar />
+      <DelayedSuspense fallback={<Loader />} delay={1000}>
         <main>
           <Outlet />
 
@@ -22,7 +27,7 @@ const HomeLayout = () => {
 
           <Footer />
         </main>
-      </div>
+      </DelayedSuspense>
     </ThemeProvider>
   )
 }

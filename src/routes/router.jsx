@@ -30,17 +30,17 @@ const router = createBrowserRouter([
     element: <AuthLayout />,
     children: [
       {
-        path: 'login',
+        path: '/auth/login',
         element: <Login />,
       },
       {
-        path: 'sign-up',
+        path: '/auth/sign-up',
         element: <SignUp />,
       },
     ],
   },
   {
-    path: '*',
+    path: '/*',
     element: <NotFoundPage />,
   },
 ]);
