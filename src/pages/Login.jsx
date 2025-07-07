@@ -2,11 +2,11 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import Lottie from "lottie-react";
 import { useEffect, useState } from "react";
-import { FcGoogle } from "react-icons/fc";
 import { HiOutlineEye, HiOutlineEyeOff, HiOutlineKey, HiOutlineMail } from "react-icons/hi";
 import { MdLogin } from "react-icons/md";
 import { Link } from "react-router";
 import LoginLottie from "../assets/login.json";
+import GoogleLogin from "../components/GoogleLogin";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -35,7 +35,7 @@ const Login = () => {
             </Link>
             <div className="space-x-2">
               <span className="text-text">Don't have an account?</span>
-              <Link to="/auth/login" className="text-brand dark:text-[#3a74f1] hover:underline text-lg font-bold font-funnel-display">
+              <Link to="/auth/sign-up" className="text-brand dark:text-[#3a74f1] hover:underline text-lg font-bold font-funnel-display">
                 Register.
               </Link>
             </div>
@@ -43,7 +43,7 @@ const Login = () => {
 
           <h2 className="text-3xl md:text-4xl font-bold font-funnel-display text-brand mb-1 mt-12 ">Welcome Back!</h2>
           <p className="text-text mb-8 text-base md:text-lg">
-            Find balance in your mind.
+            Connect with our community.
           </p>
 
           {/* Form */}
@@ -92,9 +92,7 @@ const Login = () => {
 
 
           {/* Google Sign-In */}
-          <button className="w-full flex justify-center items-center-safe gap-2 bg-zinc-100 dark:bg-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-100 border border-gray-500 rounded-xl py-3 text-black font-medium font-funnel-display">
-            <FcGoogle size={22} /> Login with Google
-          </button>
+          <GoogleLogin />
         </div>
       </div>
     </div>
