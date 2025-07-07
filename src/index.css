@@ -2,16 +2,18 @@
 @plugin "daisyui" {
   themes: false;
 }
-
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
   :root {
     --color-brand: #145cfc;
+    --color-brand-light: #dce7ff;
+    --color-brand-dark: #0b3ec2;
     --color-text: #0d0d0d;
     --color-text-muted: #4d4d4d;
     --color-para: theme(--color-gray-700);
     --color-menu: #fffefe;
+    --color-input: var(--color-zinc-100);
     --color-background: #fffefe;
     /* --color-bg: #f2f2f2;
     --color-bg-dark: #e6e6e6;
@@ -20,10 +22,13 @@
 
   .dark {
     --color-brand: #145cfc;
+    --color-brand-light: #dce7ff;
+    --color-brand-dark: #0b3ec2;
     --color-text: #f2f2f2;
     --color-text-muted: #b3b3b3;
     --color-para: theme(--color-gray-400);
     --color-menu: #1d1c1f;
+    --color-input: var(--color-zinc-800);
     --color-background: theme(--color-zinc-900);
     /* --color-bg: #0d0d0d;
     --color-bg-dark: #000000;
@@ -37,10 +42,13 @@
   --font-ibm: "IBM Plex Sans", sans-serif;
   --font-funnel-display: "Funnel Display", sans-serif;
   --color-brand: var(--color-brand);
+  --color-brand-light: var(--color-brand-light);
+  --color-brand-dark: var(--color-brand-dark);
   --color-text: var(--color-text);
   --color-text-muted: var(--color-text-muted);
   --color-para: var(--color-para);
   --color-menu: var(--color-menu);
+  --color-input: var(--color-input);
   --color-background: var(--color-background);
   /* --color-bg: var(--color-bg);
   --color-bg-dark: var(--color-bg-dark);
@@ -54,7 +62,14 @@
 
 body,
 * {
-  /* cursor: none !important; Force hide default cursor */
+  /* cursor: none !important; */
+}
+
+@layer utilities {
+  input:-webkit-autofill {
+    box-shadow: 0 0 0px 1000px var(--color-input) inset !important;
+    -webkit-text-fill-color: var(--color-text);
+  }
 }
 
 .underline_animate::after {
