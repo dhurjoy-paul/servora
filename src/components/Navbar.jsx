@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { slide as Menu } from 'react-burger-menu';
 import { Link, NavLink, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
@@ -9,12 +9,12 @@ import { FaFilePen } from 'react-icons/fa6';
 import { HiWrenchScrewdriver } from 'react-icons/hi2';
 import { MdAssignmentAdd, MdCollectionsBookmark, MdLogin, MdLogout, MdManageAccounts } from 'react-icons/md';
 import { TbLayoutDashboardFilled } from 'react-icons/tb';
+import { AuthContext } from '../contexts/AuthContext';
 import Heading from './Heading';
 import NavMenu from './ui/NavMenu';
 
 const Navbar = () => {
-  // const { user, signOutUser } = useContext(AuthContext);
-  const user = true;
+  const { user, signOutUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const ToastSuccess = () => (
@@ -69,12 +69,12 @@ const Navbar = () => {
   };
 
   const handleSignOut = () => {
-    // signOutUser()
-    //   .then(() => {
-    notifySuccess();
-    navigate('/');
-    closeMenu();
-    //   }).catch(error => { console.log(error); notifyFailed() })
+    signOutUser()
+      .then(() => {
+        notifySuccess();
+        navigate('/');
+        closeMenu();
+      }).catch(error => { console.log(error); notifyFailed() })
   };
 
   const navLinkClass = ({ isActive }) =>

@@ -1,19 +1,130 @@
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Lottie from "lottie-react";
-import { useEffect, useState } from "react";
-import { HiOutlineEye, HiOutlineEyeOff, HiOutlineKey, HiOutlineMail, HiOutlinePhotograph, HiOutlineUser } from "react-icons/hi";
+import { useContext, useEffect, useState } from "react";
+import { HiOutlineMail, HiOutlinePhotograph, HiOutlineUser } from "react-icons/hi";
 import { LuNotebookPen } from "react-icons/lu";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
+import { toast } from "react-toastify";
 import RegisterLottie from "../assets/register.json";
 import GoogleLogin from "../components/GoogleLogin";
+import AutoPwd from "../components/ui/AutoPwd";
+import { AuthContext } from "../contexts/AuthContext";
+import validate from "../utils/validate";
 
 const SignUp = () => {
-  const [showPassword, setShowPassword] = useState(false);
-
   useEffect(() => {
     AOS.init({ duration: 1500 });
   }, []);
+
+  const [showPassword, setShowPassword] = useState(false);
+  const { createUser, setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
+
+  // state management
+  const [pwd, setPwd] = useState('');
+  const [errors, setErrors] = useState([]);
+  const [successMsg, setSuccessMsg] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+
+  // toast notifications
+  const notifySuccess = () => toast.success(<ToastSuccess />);
+  const notifyFailed = (error) => toast.error(<ToastFailed error={error} />);
+  const notifyInvalid = () => toast.error(<ToastInvalid />);
+
+  const ToastSuccess = () => (
+    <span className='text-lg text-green-600 font-semibold font-poppins'>Registration successful</span>
+  );
+  const ToastFailed = ({ error }) => (
+    <div className='font-semibold font-poppins'>
+      <div className='flex gap-3 mb-1'>
+        <span className='text-lg text-red-600 font-semibold font-poppins'>Registration failed</span>
+      </div>
+      <p>{error}</p>
+    </div>
+  );
+  const ToastInvalid = () => (
+    <div className='font-semibold font-poppins'>
+      <div className='flex gap-3 mb-1'>
+        <span className='text-lg text-red-600 font-semibold font-poppins'>Registration failed</span>
+      </div>
+      <p>Email already in use</p>
+    </div>
+  );
+
+  const handlePassChange = (e) => {
+    const value = e.target.value;
+    setPwd(value);
+    setErrors(validate(value));
+  };
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const { password, ...userInfo } = Object.fromEntries(formData.entries());
+    const { name, email, photo } = userInfo;
+
+    setSuccessMsg(false);
+    setError(false);
+    setErrorMsg('');
+
+    if (errors.length > 0 || pwd.length === 0) { return }
+
+    createUser(email, password)
+      .then((result) => {
+        const uid = result.user.uid;
+        const userProfile = {
+          ...userInfo, uid,
+          creationTime: result.user?.metadata?.creationTime,
+          lastSignInTime: result.user?.metadata?.lastSignInTime,
+        };
+
+        // remove this if saving it on DB
+        notifySuccess();
+        navigate(from);
+
+        // Save user to DB
+        // fetch('https://ph-assignment-10-server-nu.vercel.app/users', {
+        //   method: 'POST',
+        //   headers: { 'content-type': 'application/json' },
+        //   body: JSON.stringify(userProfile),
+        // })
+        //   .then(res => res.json())
+        //   .then(data => {
+        //     if (data.insertedId) {
+        //       const profile = { displayName: name, photoURL: photo };
+
+        //       updateProfile(auth.currentUser, profile)
+        //         .then(() => {
+        //           setUser({ ...auth.currentUser });
+        //           notifySuccess();
+        //           navigate(from);
+        //         })
+        //         .catch(err => {
+        //           console.error('Profile update error:', err);
+        //           notifySuccess();
+        //           navigate(from);
+        //         });
+        //     }
+        //   });
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        setError(true);
+        setErrorMsg(errorMessage);
+
+        console.log('Email-Password Register Error:', error);
+        if (errorMessage === "Firebase: Error (auth/email-already-in-use).") {
+          notifyInvalid();
+        } else {
+          notifyFailed(errorMessage);
+        }
+      });
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-transparent px-2 md:px-6 py-12">
@@ -40,7 +151,7 @@ const SignUp = () => {
           </p>
 
           {/* Form */}
-          <form className="text-lg">
+          <form onSubmit={handleRegister} className="text-lg">
             <>
               <label className="input gap-4 pr-5 validator text-lg w-full h-12 rounded-lg bg-input">
                 <div className="ml-3 text-[#848f95]"><HiOutlineUser size={24} /></div>
@@ -51,7 +162,7 @@ const SignUp = () => {
             <>
               <label className="input gap-4 pr-5 validator text-lg w-full h-12 rounded-lg bg-input mt-4">
                 <div className="ml-3 text-[#848f95]"><HiOutlinePhotograph size={24} /></div>
-                <input type="url" name='picture' className="text-black dark:text-[#f4fbff]" placeholder="Enter your photo URL ..." required />
+                <input type="url" name='photo' className="text-black dark:text-[#f4fbff]" placeholder="Enter your photo URL ..." required />
               </label>
               <p className="validator-hint hidden text-red-500 text-sm">❌ Enter your photo URL</p>
             </>
@@ -62,22 +173,8 @@ const SignUp = () => {
               </label>
               <p className="validator-hint hidden text-red-500 text-sm">❌ Enter valid email address</p>
             </>
-            <>
-              <label className="input gap-4 pr-5 validator text-lg w-full h-12 rounded-lg bg-input text-text mt-4">
-                <div className="ml-3 text-[#848f95]"><HiOutlineKey size={24} /></div>
-                <input type={showPassword ? 'text' : 'password'} name='password' minLength="6"
-                  className="text-black dark:text-[#f4fbff]" placeholder="Enter strong password ..." aria-label="Password" required />
 
-                <button type='button' className="cursor-pointer text-[#848f95]"
-                  onClick={() => setShowPassword(vis => !vis)}
-                  aria-label={showPassword ? 'Hide password' : 'Show password'}
-                  aria-pressed={showPassword} >
-                  {showPassword ? (<HiOutlineEyeOff size={24} />) :
-                    (<HiOutlineEye size={24} />)}
-                </button>
-              </label>
-              <p className="validator-hint hidden text-sm">❌ Enter valid email address</p>
-            </>
+            <AutoPwd onChange={handlePassChange} value={pwd} errors={errors} pwd={pwd} />
 
             <button className="w-full flex justify-center items-center-safe gap-2 bg-brand hover:bg-brand/87 text-white rounded-xl py-3 text-base font-medium font-funnel-display mt-8">
               <LuNotebookPen size={22} />

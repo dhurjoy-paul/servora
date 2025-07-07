@@ -1,19 +1,88 @@
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Lottie from "lottie-react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { HiOutlineEye, HiOutlineEyeOff, HiOutlineKey, HiOutlineMail } from "react-icons/hi";
 import { MdLogin } from "react-icons/md";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
+import { toast } from "react-toastify";
 import LoginLottie from "../assets/login.json";
 import GoogleLogin from "../components/GoogleLogin";
+import { AuthContext } from "../contexts/AuthContext";
 
 const Login = () => {
+  const { signInUser } = useContext(AuthContext)
+  const navigate = useNavigate();
+  const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
+  const from = location.state?.from?.pathname || '/';
+  const emailRef = useRef();
+
+  const notifySuccess = () => toast.success(<ToastSuccess />);
+  const notifyFailed = (error) => toast.error(<ToastFailed error={error} />);
+  const ToastSuccess = () => (
+    <span className='text-lg text-green-600 font-semibold font-poppins'>Login successful</span>
+  );
+  const ToastFailed = ({ error }) => (
+    <div className='font-semibold font-poppins'>
+      <div className='flex gap-3 mb-1'>
+        <span className='text-lg text-red-600 font-semibold font-poppins'>Login failed</span>
+      </div>
+      <p>{error}</p>
+    </div>
+  );
 
   useEffect(() => {
-    AOS.init({ duration: 1500 });
+    AOS.init({ duration: 1200 });
   }, []);
+
+  const handleLogin = e => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    // setSuccessMsg(false);
+    // setError(false);
+    // setErrorMsg('');
+
+    signInUser(email, password)
+      .then((userCredential) => {
+        const signInInfo = { email, lastSignInTime: userCredential.user?.metadata?.lastSignInTime }
+
+        // saving user info on MongoDB
+        // fetch('https://ph-assignment-10-server-nu.vercel.app/users', {
+        //   method: 'PATCH',
+        //   headers: {
+        //     'content-type': 'application/json'
+        //   },
+        //   body: JSON.stringify(signInInfo)
+        // })
+        // .then(res => res.json())
+        // .then(data => { console.log('Login Successful') })
+
+        notifySuccess();
+        navigate(from);
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        // setError(true);
+        // setErrorMsg(errorMessage);
+        notifyFailed(errorMessage);
+        console.log(error);
+      });
+  }
+
+  // const handleForgotPwd = () => {
+  //   const email = emailRef.current.value
+  //   sendPasswordResetEmail(auth, email)
+  //     .then(() => {
+  //       alert('Reset link is sent to email address');
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       alert("Reset link can't send")
+  //     })
+  // }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-transparent px-2 md:px-6 py-12">
@@ -47,7 +116,7 @@ const Login = () => {
           </p>
 
           {/* Form */}
-          <form className="text-lg">
+          <form onSubmit={handleLogin} className="text-lg">
             <>
               <label className="input gap-4 pr-5 validator text-lg w-full h-12 rounded-lg bg-input">
                 <div className="ml-3 text-[#848f95]"><HiOutlineMail size={24} /></div>
