@@ -121,12 +121,12 @@ const Navbar = () => {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink onClick={closeMenu} to="/manage-service" className={({ isActive }) => `bm-submenu-item ${navLinkClass({ isActive })}`}>
+                  <NavLink onClick={closeMenu} to="/manage-services" className={({ isActive }) => `bm-submenu-item ${navLinkClass({ isActive })}`}>
                     <div className='flex items-center gap-4'><MdManageAccounts className="inline-block text-2xl" /><span>Manage Services</span></div>
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink onClick={closeMenu} to="/booked-service" className={({ isActive }) => `bm-submenu-item ${navLinkClass({ isActive })}`}>
+                  <NavLink onClick={closeMenu} to="/booked-services" className={({ isActive }) => `bm-submenu-item ${navLinkClass({ isActive })}`}>
                     <div className='flex items-center gap-4'><MdCollectionsBookmark className="inline-block text-2xl" /><span>Booked-Service</span></div>
                   </NavLink>
                 </li>

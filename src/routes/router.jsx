@@ -5,6 +5,10 @@ import HomeLayout from "../layouts/HomeLayout";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import NotFoundPage from "../pages/NotFoundPage";
+import AddService from '../pages/private/AddService';
+import BookedServices from '../pages/private/BookedServices';
+import ManageServices from '../pages/private/ManageServices';
+import ServiceToDo from '../pages/private/ServiceToDo';
 import Services from "../pages/Services";
 import SignUp from "../pages/SignUp";
 import PrivateRoute from "./PrivateRoute";
@@ -23,7 +27,23 @@ const router = createBrowserRouter([
       {
         path: '/services',
         element: <Services />
-      }
+      },
+      {
+        path: '/add-service',
+        element: <PrivateRoute> <AddService /> </PrivateRoute>
+      },
+      {
+        path: '/manage-services',
+        element: <PrivateRoute> <ManageServices /> </PrivateRoute>
+      },
+      {
+        path: '/booked-services',
+        element: <PrivateRoute> <BookedServices /> </PrivateRoute>
+      },
+      {
+        path: '/service-to-do',
+        element: <PrivateRoute> <ServiceToDo /> </PrivateRoute>
+      },
     ],
   },
   {
