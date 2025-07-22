@@ -6,25 +6,25 @@ import DecryptedText from './animations/DecryptedText';
 
 const steps = [
   {
-    img: "https://i.ibb.co/bjVgLdHT/find.png",
+    img: "https://res.cloudinary.com/dnxdrwrom/image/upload/v1753198090/find_pnhata.png",
     title: "Find Service",
     desc: "Choose from trusted home service categories",
     aos: "fade-up-right",
   },
   {
-    img: "https://i.ibb.co/5WVr4Z5g/booking.png",
+    img: "https://res.cloudinary.com/dnxdrwrom/image/upload/v1753198089/booking_gwjbjm.png",
     title: "Book Easily",
     desc: "Schedule at your convenience with just a few taps",
     aos: "fade-up",
   },
   {
-    img: "https://i.ibb.co/wGF1tcQ/mentor.png",
+    img: "https://res.cloudinary.com/dnxdrwrom/image/upload/v1753198091/mentor_sbl0zw.png",
     title: "Get Expert Help",
     desc: "A professional visits your location and solves your issue",
     aos: "fade-up",
   },
   {
-    img: "https://i.ibb.co/9PZSfWp/relaxation.png",
+    img: "https://res.cloudinary.com/dnxdrwrom/image/upload/v1753198093/relaxation_ceqvpw.png",
     title: "Rate & Relax",
     desc: "Pay securely and leave a rating—it’s that simple!",
     aos: "fade-up-left",

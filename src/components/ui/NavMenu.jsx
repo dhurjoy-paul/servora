@@ -20,8 +20,8 @@ const NavMenu = ({ user }) => {
           </div>
           <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-menu rounded-lg text-base">
             <li><NavLink to="/add-service" className={navLinkClass}><div className='flex items-center gap-2'><MdAssignmentAdd className="inline-block text-xl" /><span>Add Service</span></div></NavLink></li>
-            <li><NavLink to="/manage-service" className={navLinkClass}><div className='flex items-center gap-2'><MdManageAccounts className="inline-block text-xl" /><span>Manage Services</span></div></NavLink></li>
-            <li><NavLink to="/booked-service" className={navLinkClass}><div className='flex items-center gap-2'><MdCollectionsBookmark className="inline-block text-xl" /><span>Booked-Service</span></div></NavLink></li>
+            <li><NavLink to="/manage-services" className={navLinkClass}><div className='flex items-center gap-2'><MdManageAccounts className="inline-block text-xl" /><span>Manage Services</span></div></NavLink></li>
+            <li><NavLink to="/booked-services" className={navLinkClass}><div className='flex items-center gap-2'><MdCollectionsBookmark className="inline-block text-xl" /><span>Booked-Service</span></div></NavLink></li>
             <li><NavLink to="/service-to-do" className={navLinkClass}><div className='flex items-center gap-2'><FaFilePen className="inline-block text-xl" /><span>Service-To-Do</span></div></NavLink></li>
           </ul>
         </div>

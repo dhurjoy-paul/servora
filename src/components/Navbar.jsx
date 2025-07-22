@@ -113,7 +113,7 @@ const Navbar = () => {
 
           {/* Dashboard Submenu */}
           {
-            (user & showDashboardSubMenu) && (
+            (user && showDashboardSubMenu) && (
               <ul className="bm-submenu-list">
                 <li>
                   <NavLink onClick={closeMenu} to="/add-service" className={({ isActive }) => `bm-submenu-item ${navLinkClass({ isActive })}`}>
