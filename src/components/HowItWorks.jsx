@@ -52,7 +52,7 @@ const HowItWorks = () => {
         <h2 className="text-3xl md:text-4xl font-bold mb-4">
           How Servora Works – <span className="text-brand font-funnel-display">Fast, Easy, Reliable</span>
         </h2>
-        <p className="text-para max-w-2xl mx-auto mb-12">
+        <p className="text-lg text-para max-w-2xl mx-auto mb-12">
           In just a few steps, get expert help at your doorstep.
         </p>
 

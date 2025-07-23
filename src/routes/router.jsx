@@ -8,6 +8,7 @@ import NotFoundPage from "../pages/NotFoundPage";
 import AddService from '../pages/private/AddService';
 import BookedServices from '../pages/private/BookedServices';
 import ManageServices from '../pages/private/ManageServices';
+import ServiceDetails from '../pages/private/ServiceDetails';
 import ServiceToDo from '../pages/private/ServiceToDo';
 import Services from "../pages/Services";
 import SignUp from "../pages/SignUp";
@@ -23,10 +24,12 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+        // loader: () => fetch('http://localhost:3000/services/random')
       },
       {
         path: '/services',
-        element: <Services />
+        element: <Services />,
+        // loader: () => fetch('http://localhost:3000/services')
       },
       {
         path: '/add-service',
@@ -34,15 +37,23 @@ const router = createBrowserRouter([
       },
       {
         path: '/manage-services',
-        element: <PrivateRoute> <ManageServices /> </PrivateRoute>
+        element: <PrivateRoute> <ManageServices /> </PrivateRoute>,
+        // loader: () => fetch('http://localhost:3000/services')
       },
       {
         path: '/booked-services',
-        element: <PrivateRoute> <BookedServices /> </PrivateRoute>
+        element: <PrivateRoute> <BookedServices /> </PrivateRoute>,
+        // loader: () => fetch('http://localhost:3000/services')
       },
       {
         path: '/service-to-do',
-        element: <PrivateRoute> <ServiceToDo /> </PrivateRoute>
+        element: <PrivateRoute> <ServiceToDo /> </PrivateRoute>,
+        // loader: () => fetch('http://localhost:3000/services')
+      },
+      {
+        path: '/service-details',
+        element: <PrivateRoute> <ServiceDetails /> </PrivateRoute>,
+        // loader: () => fetch('http://localhost:3000/services')
       },
     ],
   },
@@ -50,20 +61,11 @@ const router = createBrowserRouter([
     path: '/auth',
     element: <AuthLayout />,
     children: [
-      {
-        path: '/auth/login',
-        element: <Login />,
-      },
-      {
-        path: '/auth/sign-up',
-        element: <SignUp />,
-      },
+      { path: '/auth/login', element: <Login /> },
+      { path: '/auth/sign-up', element: <SignUp /> },
     ],
   },
-  {
-    path: '/*',
-    element: <NotFoundPage />,
-  },
+  { path: '/*', element: <NotFoundPage /> },
 ]);
 
 export default router;
