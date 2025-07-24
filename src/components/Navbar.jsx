@@ -1,20 +1,19 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { slide as Menu } from 'react-burger-menu';
-import { Link, NavLink, useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
-import '../styles/burger-menu.css';
-// import { AuthContext } from '../contexts/AuthContext';
 import { FaChevronDown, FaChevronUp, FaHome } from 'react-icons/fa';
 import { FaFilePen } from 'react-icons/fa6';
 import { HiWrenchScrewdriver } from 'react-icons/hi2';
 import { MdAssignmentAdd, MdCollectionsBookmark, MdLogin, MdLogout, MdManageAccounts } from 'react-icons/md';
 import { TbLayoutDashboardFilled } from 'react-icons/tb';
-import { AuthContext } from '../contexts/AuthContext';
+import { Link, NavLink, useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
+import useAuth from '../hooks/useAuth';
+import '../styles/burger-menu.css';
 import Heading from './Heading';
 import NavMenu from './ui/NavMenu';
 
 const Navbar = () => {
-  const { user, signOutUser } = useContext(AuthContext);
+  const { user, logOut } = useAuth();
   const navigate = useNavigate();
 
   const ToastSuccess = () => (
@@ -69,7 +68,7 @@ const Navbar = () => {
   };
 
   const handleSignOut = () => {
-    signOutUser()
+    logOut()
       .then(() => {
         notifySuccess();
         navigate('/');
@@ -148,9 +147,7 @@ const Navbar = () => {
       >
         <div className="flex items-center px-4 xl:px-0 py-2 md:py-2 max-w-7xl mx-auto">
           <div className="navbar-start">
-            <Link to='/' className="flex items-center gap-2 cursor-pointer group">
-              <Heading />
-            </Link>
+            <Heading />
           </div>
 
           <div className="flex items-center navbar-center gap-2">

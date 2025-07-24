@@ -1,15 +1,15 @@
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Lottie from "lottie-react";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { HiOutlineMail, HiOutlinePhotograph, HiOutlineUser } from "react-icons/hi";
-import { LuNotebookPen } from "react-icons/lu";
 import { Link, useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import RegisterLottie from "../assets/register.json";
 import GoogleLogin from "../components/GoogleLogin";
 import AutoPwd from "../components/ui/AutoPwd";
-import { AuthContext } from "../contexts/AuthContext";
+import useAuth from '../hooks/useAuth';
+import saveUserInDb from "../utils/saveUserInDb";
 import validate from "../utils/validate";
 
 const SignUp = () => {
@@ -18,17 +18,15 @@ const SignUp = () => {
   }, []);
 
   const [showPassword, setShowPassword] = useState(false);
-  const { createUser, setUser } = useContext(AuthContext);
+  const { createUser, setUser, updateUserProfile } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const [signingIn, setSigningIn] = useState(false);
   const from = location.state?.from?.pathname || '/';
 
   // state management
   const [pwd, setPwd] = useState('');
   const [errors, setErrors] = useState([]);
-  const [successMsg, setSuccessMsg] = useState(false);
-  const [error, setError] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
 
   // toast notifications
   const notifySuccess = () => toast.success(<ToastSuccess />);
@@ -61,69 +59,66 @@ const SignUp = () => {
     setErrors(validate(value));
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
+    if (signingIn) return;
     e.preventDefault();
+
     const form = e.target;
     const formData = new FormData(form);
     const { password, ...userInfo } = Object.fromEntries(formData.entries());
     const { name, email, photo } = userInfo;
 
-    setSuccessMsg(false);
-    setError(false);
-    setErrorMsg('');
+    if (errors.length > 0 || !password?.trim()) {
+      notifyFailed("Please fix the form errors before submitting.");
+      return;
+    }
 
-    if (errors.length > 0 || pwd.length === 0) { return }
+    try {
+      // Step 1: create User
+      const { user } = await createUser(email, password);
 
-    createUser(email, password)
-      .then((result) => {
-        const uid = result.user.uid;
-        const userProfile = {
-          ...userInfo, uid,
-          creationTime: result.user?.metadata?.creationTime,
-          lastSignInTime: result.user?.metadata?.lastSignInTime,
-        };
+      // Step 2: update user to firebase $ context
+      await updateUserProfile(name, photo);
+      await setUser(user);
+      console.log(user);
 
-        // remove this if saving it on DB
-        notifySuccess();
-        navigate(from);
+      // Step 3: build user profile for DB
+      const userProfile = {
+        ...userInfo,
+        uid: user?.uid
+      };
 
-        // Save user to DB
-        // fetch('https://ph-assignment-10-server-nu.vercel.app/users', {
-        //   method: 'POST',
-        //   headers: { 'content-type': 'application/json' },
-        //   body: JSON.stringify(userProfile),
-        // })
-        //   .then(res => res.json())
-        //   .then(data => {
-        //     if (data.insertedId) {
-        //       const profile = { displayName: name, photoURL: photo };
+      // Step 4: save user to DB
+      await saveUserInDb(userProfile);
 
-        //       updateProfile(auth.currentUser, profile)
-        //         .then(() => {
-        //           setUser({ ...auth.currentUser });
-        //           notifySuccess();
-        //           navigate(from);
-        //         })
-        //         .catch(err => {
-        //           console.error('Profile update error:', err);
-        //           notifySuccess();
-        //           navigate(from);
-        //         });
-        //     }
-        //   });
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        setError(true);
-        setErrorMsg(errorMessage);
-
-        console.log('Email-Password Register Error:', error);
-        if (errorMessage === "Firebase: Error (auth/email-already-in-use).") {
-          notifyInvalid();
-        } else {
-          notifyFailed(errorMessage);
-        }
+      // Step 5: request JWT
+      const jwtRes = await fetch("http://localhost:3000/jwt", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ email }),
       });
+
+      const jwtData = await jwtRes.json();
+
+      if (!jwtRes.ok || !jwtData?.success) {
+        throw new Error("Failed to generate login token");
+      }
+
+      // Step 6: Done
+      notifySuccess("Registration successful!");
+      navigate(from, { replace: true });
+    } catch (error) {
+      const message = error?.message || "Something went wrong during registration";
+
+      console.error("Register Error:", error);
+
+      if (message.includes("auth/email-already-in-use")) {
+        notifyInvalid("Email already in use.");
+      } else {
+        notifyFailed(message);
+      }
+    }
   };
 
   return (
@@ -176,9 +171,10 @@ const SignUp = () => {
 
             <AutoPwd onChange={handlePassChange} value={pwd} errors={errors} pwd={pwd} />
 
-            <button className="w-full flex justify-center items-center-safe gap-2 bg-brand hover:bg-brand/87 text-white rounded-xl py-3 text-base font-medium font-funnel-display mt-8">
-              <LuNotebookPen size={22} />
-              SIGN UP
+            <button
+              disabled={signingIn}
+              className={`w-full flex justify-center items-center-safe gap-2 bg-brand hover:bg-brand/87 text-white rounded-xl py-3 text-base font-medium font-funnel-display mt-4 ${signingIn ? "opacity-50 cursor-not-allowed" : ""}`}>
+              {signingIn ? "Signing in..." : "LOG IN"}
             </button>
           </form>
 

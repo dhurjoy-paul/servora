@@ -1,32 +1,34 @@
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Lottie from "lottie-react";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { HiOutlineEye, HiOutlineEyeOff, HiOutlineKey, HiOutlineMail } from "react-icons/hi";
 import { MdLogin } from "react-icons/md";
 import { Link, useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import LoginLottie from "../assets/login.json";
 import GoogleLogin from "../components/GoogleLogin";
-import { AuthContext } from "../contexts/AuthContext";
+import useAuth from "../hooks/useAuth";
+import saveUserInDb from '../utils/saveUserInDb';
 
 const Login = () => {
-  const { signInUser } = useContext(AuthContext)
+  const { signIn } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
+  const [signingIn, setSigningIn] = useState(false);
   const from = location.state?.from?.pathname || '/';
-  const emailRef = useRef();
+  // const emailRef = useRef();
 
-  const notifySuccess = () => toast.success(<ToastSuccess />);
-  const notifyFailed = (error) => toast.error(<ToastFailed error={error} />);
-  const ToastSuccess = () => (
-    <span className='text-lg text-green-600 font-semibold font-poppins'>Login successful</span>
+  const notifySuccess = (msg) => toast.success(<ToastSuccess msg={msg} />);
+  const notifyFailed = (error, msg) => toast.error(<ToastFailed error={error} msg={msg} />);
+  const ToastSuccess = ({ msg }) => (
+    <span className='text-lg text-green-600 font-semibold font-ibm leading-6'>{msg}</span>
   );
-  const ToastFailed = ({ error }) => (
-    <div className='font-semibold font-poppins'>
+  const ToastFailed = ({ error, msg }) => (
+    <div className='font-semibold font-ibm'>
       <div className='flex gap-3 mb-1'>
-        <span className='text-lg text-red-600 font-semibold font-poppins'>Login failed</span>
+        <span className='text-lg text-red-600 font-semibold font-ibm leading-6'>{msg}</span>
       </div>
       <p>{error}</p>
     </div>
@@ -36,53 +38,37 @@ const Login = () => {
     AOS.init({ duration: 1200 });
   }, []);
 
-  const handleLogin = e => {
+  const handleLogin = async (e) => {
+    if (signingIn) return;
     e.preventDefault();
+
     const email = e.target.email.value;
     const password = e.target.password.value;
 
-    // setSuccessMsg(false);
-    // setError(false);
-    // setErrorMsg('');
+    try {
+      // Step 1: Firebase Auth
+      await signIn(email, password);
 
-    signInUser(email, password)
-      .then((userCredential) => {
-        const signInInfo = { email, lastSignInTime: userCredential.user?.metadata?.lastSignInTime }
+      // Step 2: Save user to DB (last_loggedIn gets updated)
+      await saveUserInDb({ email });
 
-        // saving user info on MongoDB
-        // fetch('https://ph-assignment-10-server-nu.vercel.app/users', {
-        //   method: 'PATCH',
-        //   headers: {
-        //     'content-type': 'application/json'
-        //   },
-        //   body: JSON.stringify(signInInfo)
-        // })
-        // .then(res => res.json())
-        // .then(data => { console.log('Login Successful') })
-
-        notifySuccess();
-        navigate(from);
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        // setError(true);
-        // setErrorMsg(errorMessage);
-        notifyFailed(errorMessage);
-        console.log(error);
+      // Step 3: Get JWT (server sets secure cookie)
+      const res = await fetch("http://localhost:3000/jwt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+        credentials: "include",
       });
-  }
 
-  // const handleForgotPwd = () => {
-  //   const email = emailRef.current.value
-  //   sendPasswordResetEmail(auth, email)
-  //     .then(() => {
-  //       alert('Reset link is sent to email address');
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       alert("Reset link can't send")
-  //     })
-  // }
+      if (!res.ok) throw new Error("Failed to get token");
+
+      notifySuccess("Login successful");
+      navigate(from, { replace: true });
+    } catch (err) {
+      console.error("Login error:", err);
+      notifyFailed(err.message || "Login failed", "Authentication error");
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-transparent px-2 md:px-6 py-12">
@@ -146,9 +132,11 @@ const Login = () => {
               <Link className="link link-hover text-[15px]">Forgot Password?</Link>
             </div>
 
-            <button className="w-full flex justify-center items-center-safe gap-2 bg-brand hover:bg-brand/87 text-white rounded-xl py-3 text-base font-medium font-funnel-display mt-4">
+            <button
+              disabled={signingIn}
+              className={`w-full flex justify-center items-center-safe gap-2 bg-brand hover:bg-brand/87 text-white rounded-xl py-3 text-base font-medium font-funnel-display mt-4 ${signingIn ? "opacity-50 cursor-not-allowed" : ""}`}>
               <MdLogin size={22} />
-              LOG IN
+              {signingIn ? "Signing in..." : "LOG IN"}
             </button>
           </form>
 

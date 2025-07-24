@@ -1,56 +1,84 @@
-import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth';
-import { useEffect, useState } from 'react';
+import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
+import { createContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { auth } from '../firebase/firebase.init';
-import { AuthContext } from './AuthContext';
+import { app } from '../firebase/firebase.init';
 
+// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+export const AuthContext = createContext(null)
+// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+// AuthProvider
 const AuthProvider = ({ children }) => {
+  const auth = getAuth(app)
   const googleProvider = new GoogleAuthProvider();
-  const notifySuccess = () => toast.success(<ToastSuccess />);
-  const notifyFailed = (error) => toast.error(<ToastFailed error={error} />);
-  const ToastSuccess = () => (
-    <span className='text-lg text-green-600 font-semibold font-poppins'>Profile updated!</span>
-  );
-  const ToastFailed = ({ error }) => (
-    <div className='font-semibold font-poppins'>
-      <div className='flex gap-3 mb-1'>
-        <span className='text-lg text-red-600 font-semibold font-poppins'>Profile didn't update!</span>
-      </div>
-      <p>{error}</p>
-    </div>
-  );
+
+  // extra work for getting email from firebase
+  googleProvider.addScope("email");
+  googleProvider.setCustomParameters({
+    prompt: "select_account"
+  });
 
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const notifySuccess = (msg) => toast.success(<ToastSuccess msg={msg} />);
+  const ToastSuccess = ({ msg }) => (
+    <span className='text-lg text-green-600 font-semibold font-bricolage-grotesque leading-6'>{msg}</span>
+  );
 
   const createUser = (email, password) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
-  const signInUser = (email, password) => {
+
+  const signIn = (email, password) => {
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
-
-  const signOutUser = () => { setLoading(true); return signOut(auth) }
 
   const signInWithGoogle = () => {
     setLoading(true);
     return signInWithPopup(auth, googleProvider)
   }
 
+  const logOut = () => {
+    setLoading(true);
+    signOut(auth);
+    notifySuccess("Logout successful");
+    return
+  }
+
+  const updateUserProfile = (name, photo) => {
+    return updateProfile(auth.currentUser, {
+      displayName: name,
+      photoURL: photo,
+    })
+  }
+
   useEffect(() => {
-    const unSubscribe = onAuthStateChanged(auth, currentUser => {
-      if (currentUser) { setUser(currentUser); setLoading(false); }
-      else { setUser(null); setLoading(false); }
+    const unSubscribe = onAuthStateChanged(auth, async currentUser => {
+      console.log('CurrentUser-->', currentUser?.displayName, currentUser?.email)
+
+      try {
+        if (currentUser) {
+          setUser(currentUser);
+        } else {
+          setUser(currentUser);
+          localStorage.removeItem('token');
+        }
+      } catch (err) {
+        console.error('Auth error==>', err);
+      } finally {
+        setLoading(false);
+      }
     });
     return () => unSubscribe();
   }, []);
 
-const userInfo = { user, setUser, loading, setLoading, createUser, signInUser, signOutUser, signInWithGoogle };
+  const authInfo = { user, setUser, loading, setLoading, createUser, signIn, signInWithGoogle, logOut, updateUserProfile };
 
   return (
-    <AuthContext.Provider value={userInfo}>
+    <AuthContext.Provider value={authInfo}>
       {children}
     </AuthContext.Provider>
   );
