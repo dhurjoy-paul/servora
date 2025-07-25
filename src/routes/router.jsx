@@ -51,9 +51,9 @@ const router = createBrowserRouter([
         // loader: () => fetch('http://localhost:3000/services')
       },
       {
-        path: '/service-details',
+        path: '/services/:id',
         element: <PrivateRoute> <ServiceDetails /> </PrivateRoute>,
-        // loader: () => fetch('http://localhost:3000/services')
+        loader: ({params}) => fetch(`http://localhost:3000/services/${params.id}`)git 
       },
     ],
   },

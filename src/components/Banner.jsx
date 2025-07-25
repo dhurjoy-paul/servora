@@ -1,7 +1,7 @@
 import { lazy } from 'react';
 import { FiArrowUpRight } from 'react-icons/fi';
 import { Link } from 'react-router';
-const Count = lazy(() => import('./Count'))
+const Count = lazy(() => import('./Count'));
 const RightSide = lazy(() => import('./RightSide'))
 const MarqueeUI = lazy(() => import('./ui/MarqueeUI'))
 

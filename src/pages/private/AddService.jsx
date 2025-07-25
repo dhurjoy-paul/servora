@@ -45,10 +45,9 @@ const AddService = () => {
       providerName: user?.displayName || "Unknown",
       providerEmail: user?.email || user?.providerData?.[0]?.email || null,
       providerImage: user?.photoURL || "",
-      status: "pending",
       createdAt: new Date().toISOString()
     };
-n
+    n
     try {
       const res = await fetch('http://localhost:3000/services', {
         method: "POST",
