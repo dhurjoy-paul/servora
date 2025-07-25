@@ -5,6 +5,7 @@ import { FaEdit, FaMapMarkerAlt, FaMoneyBillWave, FaTrash } from "react-icons/fa
 import { FaXmark } from "react-icons/fa6";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import EmptyState from '../../components/EmptyState';
 import useAuth from "../../hooks/useAuth";
 
 const ManageServices = () => {
@@ -99,7 +100,7 @@ const ManageServices = () => {
       </h3>
 
       {services.length === 0 ? (
-        <div className="text-center text-gray-500">No services found.</div>
+        <EmptyState title={"No services found."} />
       ) : (
         <div className="max-w-5xl mx-auto space-y-8">
           {services.map((service) => (
