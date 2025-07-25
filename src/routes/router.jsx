@@ -24,12 +24,11 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
-        // loader: () => fetch('http://localhost:3000/services/random')
+        loader: () => fetch('http://localhost:3000/services/random/6')
       },
       {
         path: '/services',
-        element: <Services />,
-        // loader: () => fetch('http://localhost:3000/services')
+        element: <Services />
       },
       {
         path: '/add-service',
@@ -37,18 +36,15 @@ const router = createBrowserRouter([
       },
       {
         path: '/manage-services',
-        element: <PrivateRoute> <ManageServices /> </PrivateRoute>,
-        // loader: () => fetch('http://localhost:3000/services')
+        element: <PrivateRoute> <ManageServices /> </PrivateRoute>
       },
       {
         path: '/booked-services',
-        element: <PrivateRoute> <BookedServices /> </PrivateRoute>,
-        // loader: () => fetch('http://localhost:3000/services')
+        element: <PrivateRoute> <BookedServices /> </PrivateRoute>
       },
       {
         path: '/service-to-do',
-        element: <PrivateRoute> <ServiceToDo /> </PrivateRoute>,
-        // loader: () => fetch('http://localhost:3000/services')
+        element: <PrivateRoute> <ServiceToDo /> </PrivateRoute>
       },
       {
         path: '/services/:id',

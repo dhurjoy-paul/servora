@@ -19,12 +19,6 @@ const PopularServices = () => {
         {displayedServices.map((service, i) => (
           <ServiceCard key={i} service={service} />
         ))}
-        <ServiceCard />
-        <ServiceCard />
-        <ServiceCard />
-        <ServiceCard />
-        <ServiceCard />
-        <ServiceCard />
       </div>
 
 
