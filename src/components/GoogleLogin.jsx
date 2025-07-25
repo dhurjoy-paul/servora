@@ -6,7 +6,7 @@ import useAuth from '../hooks/useAuth';
 import saveUserInDb from '../utils/saveUserInDb';
 
 const GoogleLogin = () => {
-  const { signInWithGoogle } = useAuth();
+  const { signInWithGoogle, setUser, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/';
@@ -41,13 +41,15 @@ const GoogleLogin = () => {
 
       if (!result?.user) throw new Error("No user returned from signInWithGoogle");
 
-      const email = result.user.email || result?.user?.providerData?.[0]?.email || null;
+      const email = result?.user?.email || result?.user?.providerData?.[0]?.email || null;
 
       if (!email) throw new Error("Google account email not available");
 
+      setUser((prev) => ({ ...prev, email: result?.user?.email || result?.user?.providerData?.[0]?.email || null }));
+
       const userData = {
         name: result.user.displayName,
-        email,
+        email: result.user.email || result?.user?.providerData?.[0]?.email || null,
         image: result.user.photoURL,
         uid: result.user.uid
       };

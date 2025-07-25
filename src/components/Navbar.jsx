@@ -67,14 +67,24 @@ const Navbar = () => {
     setShowDashboardSubMenu(prev => !prev);
   };
 
-  const handleSignOut = () => {
-    logOut()
-      .then(() => {
-        notifySuccess();
-        navigate('/');
-        closeMenu();
-      }).catch(error => { console.log(error); notifyFailed() })
+  const handleSignOut = async () => {
+    try {
+      await fetch("http://localhost:3000/logout", {
+        method: 'POST',
+        credentials: 'include',
+      });
+
+      await logOut();
+
+      notifySuccess();
+      navigate('/');
+      closeMenu();
+    } catch (error) {
+      console.error('Logout error:', error);
+      notifyFailed();
+    }
   };
+
 
   const navLinkClass = ({ isActive }) =>
     isActive

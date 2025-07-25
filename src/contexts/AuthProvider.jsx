@@ -57,14 +57,17 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, async currentUser => {
-      console.log('CurrentUser-->', currentUser?.displayName, currentUser?.email)
-
       try {
         if (currentUser) {
-          setUser(currentUser);
+          const fixedUser = {
+            ...currentUser,
+            email: currentUser.email || currentUser?.providerData?.[0]?.email || null,
+          };
+
+          setUser(fixedUser);
+          console.log('CurrentUser-->', fixedUser?.displayName, fixedUser?.email)
         } else {
-          setUser(currentUser);
-          localStorage.removeItem('token');
+          setUser(null);
         }
       } catch (err) {
         console.error('Auth error==>', err);
@@ -72,8 +75,10 @@ const AuthProvider = ({ children }) => {
         setLoading(false);
       }
     });
+
     return () => unSubscribe();
   }, []);
+
 
   const authInfo = { user, setUser, loading, setLoading, createUser, signIn, signInWithGoogle, logOut, updateUserProfile };
 
