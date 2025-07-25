@@ -13,7 +13,7 @@ const ServiceToDo = () => {
 
   const fetchBookings = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/bookings?providerEmail=${user?.email}`);
+      const res = await fetch(`https://ph-assignment-11-server-sandy.vercel.app/bookings?providerEmail=${user?.email}`);
       const data = await res.json();
       setBookings(data || []);
     } catch (err) {
@@ -29,7 +29,7 @@ const ServiceToDo = () => {
 
   const handleStatusChange = async (bookingId, newStatus) => {
     try {
-      const res = await fetch(`http://localhost:3000/bookings/${bookingId}`, {
+      const res = await fetch(`https://ph-assignment-11-server-sandy.vercel.app/bookings/${bookingId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ serviceStatus: newStatus }),

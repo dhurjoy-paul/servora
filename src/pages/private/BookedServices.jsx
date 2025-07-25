@@ -11,7 +11,7 @@ const BookedServices = () => {
   useEffect(() => {
     const fetchBookedServices = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/bookings?userEmail=${user?.email}`);
+        const res = await fetch(`https://ph-assignment-11-server-sandy.vercel.app/bookings?userEmail=${user?.email}`);
         const data = await res.json();
         setBookings(data || []);
       } catch (err) {

@@ -24,7 +24,7 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
-        loader: () => fetch('http://localhost:3000/services/random/6')
+        loader: () => fetch('https://ph-assignment-11-server-sandy.vercel.app/services/random/6')
       },
       {
         path: '/services',
@@ -49,7 +49,7 @@ const router = createBrowserRouter([
       {
         path: '/services/:id',
         element: <PrivateRoute> <ServiceDetails /> </PrivateRoute>,
-        loader: ({ params }) => fetch(`http://localhost:3000/services/${params.id}`)
+        loader: ({ params }) => fetch(`https://ph-assignment-11-server-sandy.vercel.app/services/${params.id}`)
       },
     ],
   },

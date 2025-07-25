@@ -82,7 +82,7 @@ const ServiceDetails = () => {
     };
 
     try {
-      const res = await fetch("http://localhost:3000/bookings", {
+      const res = await fetch("https://ph-assignment-11-server-sandy.vercel.app/bookings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

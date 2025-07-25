@@ -1,6 +1,6 @@
 const saveUserInDb = async (user) => {
   try {
-    const res = await fetch("http://localhost:3000/user", {
+    const res = await fetch("https://ph-assignment-11-server-sandy.vercel.app/user", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

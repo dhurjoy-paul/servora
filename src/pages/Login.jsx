@@ -53,7 +53,7 @@ const Login = () => {
       await saveUserInDb({ email });
 
       // Step 3: Get JWT (server sets secure cookie)
-      const res = await fetch("http://localhost:3000/jwt", {
+      const res = await fetch("https://ph-assignment-11-server-sandy.vercel.app/jwt", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),

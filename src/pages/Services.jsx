@@ -10,8 +10,8 @@ const Services = () => {
   const fetchServices = async (searchQuery = "") => {
     try {
       const url = searchQuery
-        ? `http://localhost:3000/services?search=${searchQuery}`
-        : `http://localhost:3000/services`;
+        ? `https://ph-assignment-11-server-sandy.vercel.app/services?search=${searchQuery}`
+        : `https://ph-assignment-11-server-sandy.vercel.app/services`;
       const res = await fetch(url);
       const data = await res.json();
       setServices(data);
@@ -47,7 +47,7 @@ const Services = () => {
             value={search}
             onChange={handleSearchChange}
           />
-      </div>
+        </div>
 
         {/* Services Grid */}
         <div className="grid grid-cols-1 gap-10">

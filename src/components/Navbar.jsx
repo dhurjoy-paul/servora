@@ -69,7 +69,7 @@ const Navbar = () => {
 
   const handleSignOut = async () => {
     try {
-      await fetch("http://localhost:3000/logout", {
+      await fetch("https://ph-assignment-11-server-sandy.vercel.app/logout", {
         method: 'POST',
         credentials: 'include',
       });

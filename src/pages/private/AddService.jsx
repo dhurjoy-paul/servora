@@ -49,7 +49,7 @@ const AddService = () => {
     };
     n
     try {
-      const res = await fetch('http://localhost:3000/services', {
+      const res = await fetch('https://ph-assignment-11-server-sandy.vercel.app/services', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

@@ -80,7 +80,6 @@ const SignUp = () => {
       // Step 2: update user to firebase $ context
       await updateUserProfile(name, photo);
       await setUser(user);
-      console.log(user);
 
       // Step 3: build user profile for DB
       const userProfile = {
@@ -92,7 +91,7 @@ const SignUp = () => {
       await saveUserInDb(userProfile);
 
       // Step 5: request JWT
-      const jwtRes = await fetch("http://localhost:3000/jwt", {
+      const jwtRes = await fetch("https://ph-assignment-11-server-sandy.vercel.app/jwt", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

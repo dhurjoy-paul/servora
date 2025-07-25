@@ -58,7 +58,7 @@ const GoogleLogin = () => {
       await saveUserInDb(userData);
 
       // 2. Get JWT token from your backend
-      const jwtRes = await fetch("http://localhost:3000/jwt", {
+      const jwtRes = await fetch("https://ph-assignment-11-server-sandy.vercel.app/jwt", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

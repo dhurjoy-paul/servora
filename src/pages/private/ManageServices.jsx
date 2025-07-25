@@ -16,7 +16,7 @@ const ManageServices = () => {
 
   const fetchServices = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/services?providerEmail=${user?.email}`);
+      const res = await fetch(`https://ph-assignment-11-server-sandy.vercel.app/services?providerEmail=${user?.email}`);
       const data = await res.json();
       setServices(data || []);
     } catch (err) {
@@ -42,7 +42,7 @@ const ManageServices = () => {
     if (!result.isConfirmed) return;
 
     try {
-      const res = await fetch(`http://localhost:3000/services/${id}`, {
+      const res = await fetch(`https://ph-assignment-11-server-sandy.vercel.app/services/${id}`, {
         method: "DELETE",
       });
       const result = await res.json();
@@ -75,7 +75,7 @@ const ManageServices = () => {
     };
 
     try {
-      const res = await fetch(`http://localhost:3000/services/${selectedService._id}`, {
+      const res = await fetch(`https://ph-assignment-11-server-sandy.vercel.app/services/${selectedService._id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedData),
