@@ -2,19 +2,23 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import EmptyState from "../components/EmptyState";
 import ServiceCard from "../components/ServiceCard";
+import Loader from '../components/ui/Loader';
 
 const Services = () => {
   const [services, setServices] = useState([]);
   const [search, setSearch] = useState("");
+  const [dataLoading, setDataLoading] = useState(false);
 
   const fetchServices = async (searchQuery = "") => {
     try {
+      setDataLoading(true);
       const url = searchQuery
         ? `https://ph-assignment-11-server-sandy.vercel.app/services?search=${searchQuery}`
         : `https://ph-assignment-11-server-sandy.vercel.app/services`;
       const res = await fetch(url);
       const data = await res.json();
       setServices(data);
+      setDataLoading(false);
     } catch (error) {
       console.error("Error fetching services:", error);
     }
@@ -29,6 +33,7 @@ const Services = () => {
     setSearch(value);
     fetchServices(value);
   };
+  if (dataLoading) return <Loader />
 
   return (
     <section className="w-full min-h-fit pt-16 md:pt-32 pb-10 px-4 sm:px-6 lg:px-0 bg-gradient-to-b from-[#D3E1FA] to-white dark:from-[#07142F] dark:to-[#0f0e0e] text-text">
@@ -41,6 +46,7 @@ const Services = () => {
         {/* Search Input */}
         <div className="flex justify-center mb-10 px-2">
           <input
+            autoFocus
             type="text"
             placeholder="Search services by name..."
             className="w-full max-w-[800px] mx-4 bg-input px-6 py-3 rounded-xl text-lg sm:text-xl text-text border border-text-muted/30 focus:outline-2 focus:outline-text text-center shadow-md"

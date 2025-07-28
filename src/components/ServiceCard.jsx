@@ -1,14 +1,8 @@
-const ServiceCard = ({ service, variant = "full" }) => {
-  service ||= {
-    image: "https://res.cloudinary.com/dnxdrwrom/image/upload/v1753198096/repairman-02_cxmtlo.jpg",
-    name: "AC Maintenance",
-    description: "Keep your air conditioner running efficiently with our expert maintenance service.",
-    price: 120,
-    providerName: "John Doe",
-    providerImage: "https://i.ibb.co/sample-avatar.jpg"
-  }
+import { Link } from "react-router"
 
-  const { image, name, description, price, providerName, providerImage } = service
+const ServiceCard = ({ service, variant = "full" }) => {
+
+  const { _id, image, name, description, price, providerName, providerImage } = service
   const isCompact = variant === "compact"
   const isHorizontal = variant === "horizontal"
 
@@ -31,8 +25,8 @@ const ServiceCard = ({ service, variant = "full" }) => {
 
       {/* Content Section */}
       <div className={`mt-5 ${isHorizontal ? 'lg:mt-0 lg:w-1/2' : ''}`}>
-        <h4 className={`font-semibold text-brand 
-          ${isCompact ? 'text-lg' : 'text-2xl bg-brand/15 w-fit px-4 py-2 rounded-full border border-brand/50'}`}>
+        <h4 className={`font-semibold text-brand dark:text-text/90 
+          ${isCompact ? 'text-lg' : 'text-2xl bg-brand/15 dark:text-text/15 w-fit px-4 py-2 rounded-full border border-brand/50 dark:border-text/50'}`}>
           {name}
         </h4>
 
@@ -59,9 +53,9 @@ const ServiceCard = ({ service, variant = "full" }) => {
 
         {/* CTA */}
         <div className="mt-6">
-          <button className={`btn ${isCompact ? 'btn-sm' : 'btn-lg'} btn-outline btn-primary rounded-full w-full group-hover:scale-105 transition-all duration-300`}>
-            View Detail
-          </button>
+          <Link to={`/services/${_id}`} className={`btn ${isCompact ? 'btn-sm' : 'btn-lg'} btn-outline btn-primary rounded-full w-full group-hover:scale-105 transition-all duration-300`}>
+            View Details
+          </Link>
         </div>
       </div>
     </div>

@@ -2,20 +2,28 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { FaMapMarkerAlt, FaMoneyBillWave } from "react-icons/fa";
 import EmptyState from '../../components/EmptyState';
+import Loader from '../../components/ui/Loader';
 import useAuth from "../../hooks/useAuth";
 
 const BookedServices = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const [bookings, setBookings] = useState([]);
+  const [dataLoading, setDataLoading] = useState(false);
 
   useEffect(() => {
     const fetchBookedServices = async () => {
       try {
-        const res = await fetch(`https://ph-assignment-11-server-sandy.vercel.app/bookings?userEmail=${user?.email}`);
+        setDataLoading(true)
+        const res = await fetch(
+          `https://ph-assignment-11-server-sandy.vercel.app/bookings?userEmail=${user?.email}`,
+          { credentials: 'include' }
+        );
         const data = await res.json();
-        setBookings(data || []);
+        setBookings(Array.isArray(data) ? data : []);
+        setDataLoading(false)
       } catch (err) {
         console.error("Failed to load booked services:", err);
+        setBookings([]);
       }
     };
 
@@ -23,6 +31,8 @@ const BookedServices = () => {
       fetchBookedServices();
     }
   }, [user]);
+
+  if (dataLoading || loading) return <Loader />
 
   return (
     <section className="w-full pt-20 md:pt-32 pb-14 px-4 sm:px-6 bg-gradient-to-b from-[#F0F4FF] to-white dark:from-[#07142F] dark:to-[#0f0e0e] text-text">

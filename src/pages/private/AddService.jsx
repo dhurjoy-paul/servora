@@ -47,7 +47,7 @@ const AddService = () => {
       providerImage: user?.photoURL || "",
       createdAt: new Date().toISOString()
     };
-    n
+    
     try {
       const res = await fetch('https://ph-assignment-11-server-sandy.vercel.app/services', {
         method: "POST",

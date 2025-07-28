@@ -13,11 +13,15 @@ const ServiceToDo = () => {
 
   const fetchBookings = async () => {
     try {
-      const res = await fetch(`https://ph-assignment-11-server-sandy.vercel.app/bookings?providerEmail=${user?.email}`);
+      const res = await fetch(`https://ph-assignment-11-server-sandy.vercel.app/bookings?providerEmail=${user?.email}`, {
+        credentials: "include",
+      });
+
       const data = await res.json();
-      setBookings(data || []);
+      setBookings(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error("Failed to fetch bookings:", err);
+      setBookings([]);
     }
   };
 
@@ -32,8 +36,10 @@ const ServiceToDo = () => {
       const res = await fetch(`https://ph-assignment-11-server-sandy.vercel.app/bookings/${bookingId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ serviceStatus: newStatus }),
       });
+
 
       if (res.ok) {
         toast.success("Status updated successfully");
@@ -119,7 +125,7 @@ const ServiceToDo = () => {
                     </div>
                   </div>
 
-                  <div className="flex gap-4 items-center mt-6">
+                  {/* <div className="flex gap-4 items-center mt-6">
                     <img
                       src={booking.providerImage}
                       alt={booking.providerName}
@@ -129,7 +135,7 @@ const ServiceToDo = () => {
                       <p className="text-sm font-semibold">{booking.providerName}</p>
                       <p className="text-xs text-gray-500 dark:text-gray-300">{booking.providerEmail}</p>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </motion.div>
             ))}
