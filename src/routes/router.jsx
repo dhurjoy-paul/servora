@@ -1,4 +1,6 @@
 import { createBrowserRouter } from "react-router";
+import AboutUs from "../components/AboutUs";
+import ContactUs from "../components/ContactUs";
 import Loader from '../components/ui/Loader';
 import AuthLayout from "../layouts/AuthLayout";
 import HomeLayout from "../layouts/HomeLayout";
@@ -29,6 +31,14 @@ const router = createBrowserRouter([
       {
         path: '/services',
         element: <Services />
+      },
+      {
+        path: '/contact-us',
+        element: <ContactUs />
+      },
+      {
+        path: '/about-us',
+        element: <AboutUs />
       },
       {
         path: '/add-service',
