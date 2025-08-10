@@ -1,5 +1,6 @@
 import { lazy } from 'react';
 import { Helmet } from 'react-helmet';
+import NewsletterSection from '../components/NewsletterSection';
 const Banner = lazy(() => import('../components/Banner'));
 const FaqSection = lazy(() => import('../components/FaqSection'));
 const HowItWorks = lazy(() => import('../components/HowItWorks'));
@@ -17,6 +18,7 @@ const Home = () => {
         <PopularServices />
         <HowItWorks />
         <FaqSection />
+        <NewsletterSection />
       </main>
     </>
   )
