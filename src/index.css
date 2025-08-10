@@ -38,6 +38,7 @@
 
 @theme {
   --breakpoint-xs: 32rem;
+  --breakpoint-nav: 69.5rem;
   --font-hanuman: "Hanuman", serif;
   --font-ibm: "IBM Plex Sans", sans-serif;
   --font-funnel-display: "Funnel Display", sans-serif;

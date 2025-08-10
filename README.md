@@ -8,7 +8,7 @@
 
 Servora is a modern, user-friendly **service-sharing platform** where users can add, update, delete, and book various services such as home repairs, consultations, beauty services, and more. It's built using the **MERN Stack**, **Firebase Authentication**, **JWT Security**, with responsive UI, and animations.
 
-🌐 **Live Site**: [Visit Servora](https://ph-assignment-12-c3db9.web.app)
+🌐 **Live Site**: [Visit Servora](https://ph-assignment-11-8fc18.web.app)
 
 ---
 

@@ -17,15 +17,16 @@ const FaqSection = () => {
   ];
 
   return (
-    <section className="bg-gradient-to-br from-[#f5f7ff] to-[#e4ecff] dark:from-[#0a0f2c] dark:to-[#152139] text-text">
+    <section className="bg-gradient-to-br from-[#f5f7ff] to-[#e4ecff] dark:from-[#0a0f2c] dark:to-[#152139] text-text w-full overflow-x-hidden">
       <div className="py-16 max-w-7xl mx-auto">
-        <div className="mx-auto px-4 flex flex-col md:flex-row items-center gap-8">
+        <div className="mx-auto px-4 flex flex-col lg:flex-row items-center gap-8">
 
-          <div className="w-full lg:w-2/3 shrink-0">
+          {/* Left side - FAQ text */}
+          <div className="w-full lg:w-[60%] shrink-0">
             <h2 className="text-4xl font-bold mb-8">Frequently Asked Questions (FAQ)</h2>
             <div className="space-y-4 min-h-[300px]">
               {faqItems.map((item, index) => (
-                <div key={index} className="collapse collapse-arrow font- bg-white dark:bg-black/50">
+                <div key={index} className="collapse collapse-arrow bg-white dark:bg-black/50">
                   <input type="radio" name="my-accordion-2" defaultChecked={index === 0} />
                   <div className="collapse-title text-xl font-medium">
                     {item.question}
@@ -38,13 +39,16 @@ const FaqSection = () => {
             </div>
           </div>
 
-          <div className="flex lg:block justify-center items-center">
-            <img src={`${faq}`}
-              className="rounded-lg max-w-full h-auto lg:max-w-sm hidden lg:mt-0 lg:block" />
+          {/* Right side - Image */}
+          <div className="hidden lg:flex w-full lg:w-[40%] justify-center items-center">
+            <img src={faq} alt="FAQ"
+              className="rounded-lg w-full h-auto object-contain"
+            />
           </div>
         </div>
       </div>
     </section>
+
   );
 };
 

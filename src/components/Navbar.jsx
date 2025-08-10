@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { slide as Menu } from 'react-burger-menu';
 import { FaChevronDown, FaChevronUp, FaHome } from 'react-icons/fa';
 import { FaFilePen } from 'react-icons/fa6';
+import { HiGlobeAlt, HiInformationCircle } from "react-icons/hi";
 import { HiWrenchScrewdriver } from 'react-icons/hi2';
 import { MdAssignmentAdd, MdCollectionsBookmark, MdLogin, MdLogout, MdManageAccounts } from 'react-icons/md';
 import { TbLayoutDashboardFilled } from 'react-icons/tb';
@@ -27,6 +28,7 @@ const Navbar = () => {
 
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [isAtTop, setIsAtTop] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showDashboardSubMenu, setShowDashboardSubMenu] = useState(false);
 
@@ -35,12 +37,15 @@ const Navbar = () => {
   const handleScroll = useCallback(() => {
     const currentScrollY = window.scrollY;
 
+    // Show/hide
     if (currentScrollY > lastScrollY && currentScrollY > NAVBAR_HEIGHT) {
       setIsVisible(false);
       setIsMenuOpen(false);
-    } else if (currentScrollY < lastScrollY || currentScrollY <= NAVBAR_HEIGHT) {
-      setIsVisible(true);
-    }
+    } else if (currentScrollY < lastScrollY || currentScrollY <= NAVBAR_HEIGHT) { setIsVisible(true) }
+
+    // Top detect
+    setIsAtTop(currentScrollY <= 0);
+
     setLastScrollY(currentScrollY);
   }, [lastScrollY, NAVBAR_HEIGHT]);
 
@@ -94,7 +99,7 @@ const Navbar = () => {
   return (
     <>
       {/* Burger Menu for mobile and tablet */}
-      <div className="md:hidden">
+      <div className="nav:hidden">
         <Menu right isOpen={isMenuOpen} onStateChange={handleStateChange}
           width={user ? 335 : 260} s>
 
@@ -147,37 +152,52 @@ const Navbar = () => {
               </ul>
             )
           }
+
+          <NavLink onClick={closeMenu} to="/contact-us" className={({ isActive }) => `bm-item ${navLinkClass({ isActive })}`}>
+            <div className='flex items-center gap-4'><HiGlobeAlt className="inline-block text-[26px]" /><span>Contact Us</span></div>
+          </NavLink>
+
+          <NavLink onClick={closeMenu} to="/about-us" className={({ isActive }) => `bm-item ${navLinkClass({ isActive })}`}>
+            <div className='flex items-center gap-4'><HiInformationCircle className="inline-block text-[26px]" /><span>About Us</span></div>
+          </NavLink>
         </Menu>
       </div>
 
       {/* Main Navbar */}
-      <div className={`w-full h-min top-0 z-50 fixed transition-transform duration-300 ease-in-out py-2
-          ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}
+      <div
+        className={`
+    w-full h-min top-0 z-50 fixed transition-all duration-300 ease-in-out py-2
+    ${isVisible ? 'translate-y-0' : '-translate-y-full'}
+    ${isAtTop ? 'bg-transparent' : 'bg-white/90 dark:bg-[#07152F]'}
+  `}
         style={{ backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}
       >
-        <div className="flex items-center px-4 xl:px-0 py-2 md:py-2 max-w-7xl mx-auto">
+        <div className="flex items-center justify-between px-4 sm:px-6 lg:px-12 py-2 md:py-2 w-full">
+
           <div className="navbar-start">
             <Heading />
           </div>
 
           <div className="flex items-center navbar-center gap-2">
-
             <NavMenu user={user} />
           </div>
-          <div className='navbar-end justify-end mr-14 md:mr-0'>
+
+          <div className="navbar-end mr-12 nav:mr-0">
             {user
-              ? (<Link onClick={handleSignOut}
-                className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br font-semibold rounded-lg px-5 py-2 flex justify-center items-center gap-2">
+              ? (<Link onClick={handleSignOut} className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br font-semibold rounded-lg px-5 py-2 flex items-center gap-2">
                 <MdLogout size={22} /> Logout
               </Link>)
-              : (<Link to={`/auth/login`}
-                className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br font-semibold rounded-lg px-5 py-2 flex justify-center items-center gap-2">
+              : (<Link to={`/auth/login`} className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br font-semibold rounded-lg px-5 py-2 flex items-center gap-2">
                 <MdLogin size={22} /> Login
               </Link>)
             }
+
+            
           </div>
+
         </div>
       </div>
+
     </>
   );
 }
