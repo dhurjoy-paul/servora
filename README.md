@@ -1,9 +1,3 @@
-### **Variant** : `Assignment_11_Category_02`
-
-#### **Selected Category**: `Home Related Repairing Services`
-
----
-
 # 🔧 Servora — Service Sharing Web Application
 
 Servora is a modern, user-friendly **service-sharing platform** where users can add, update, delete, and book various services such as home repairs, consultations, beauty services, and more. It's built using the **MERN Stack**, **Firebase Authentication**, **JWT Security**, with responsive UI, and animations.

@@ -1,15 +1,18 @@
 import { useState } from "react"
-import { Link, useLoaderData } from "react-router"
-import ServiceCard from "./ServiceCard"
+import { useLoaderData } from "react-router"
+import OutlineBtn from './ui/OutlineBtn'
+import PopularCard from "./ui/PopularCard"
 
 const PopularServices = () => {
   const data = useLoaderData()
-  const [displayedServices] = useState(data?.slice(0, 6) || [])
+  const [displayedServices] = useState(data?.slice(0, 8) || [])
 
   return (
     <section
-      className="pt-8 pb-16 lg:py-16 bg-gradient-to-br from-[#f5f7ff] to-[#e4ecff] dark:from-[#0a0f2c] dark:to-[#152139] text-text"
+      className="py-16 lg:py-20 bg-gradient-to-br from-[#f5f7ff] to-[#e4ecff] dark:from-[#0a0f2c] dark:to-[#152139] text-text"
     >
+      {/* <section className="py-16 lg:py-20 bg-white text-text"> */}
+
       <h3
         className="text-center text-3xl md:text-4xl font-bold mb-4 text-text"
         data-aos="fade-up"
@@ -25,7 +28,7 @@ const PopularServices = () => {
         Collect Your Awesome Deals Now
       </p>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-6xl mx-auto px-4">
+      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-w-7xl mx-auto">
         {displayedServices.map((service, i) => (
           <div
             key={i}
@@ -33,12 +36,16 @@ const PopularServices = () => {
             data-aos-delay={i * 100}
             data-aos-duration="600"
           >
-            <ServiceCard service={service} />
+            <PopularCard service={service} />
           </div>
         ))}
       </div>
 
-      <Link
+      <div className="flex justify-center mt-6" data-aos="fade-up" data-aos-delay="200">
+        <OutlineBtn to='/services' label='See More' />
+      </div>
+
+      {/* <Link
         to={`/services`}
         className="flex w-fit mx-auto items-center gap-2 group mt-12"
         data-aos="fade-up"
@@ -47,7 +54,7 @@ const PopularServices = () => {
         <p className="bg-blue-600 text-lg text-white px-6 py-2 rounded-full group-hover:bg-blue-700 transition">
           See More
         </p>
-      </Link>
+      </Link> */}
     </section>
   )
 }

@@ -18,7 +18,7 @@ const FaqSection = () => {
 
   return (
     <section className="bg-gradient-to-br from-[#f5f7ff] to-[#e4ecff] dark:from-[#0a0f2c] dark:to-[#152139] text-text w-full overflow-x-hidden">
-      <div className="py-16 max-w-7xl mx-auto">
+      <div className="py-16 lg:py-20 max-w-7xl mx-auto">
         <div className="mx-auto px-4 flex flex-col lg:flex-row items-center gap-8">
 
           {/* Left side - FAQ text */}

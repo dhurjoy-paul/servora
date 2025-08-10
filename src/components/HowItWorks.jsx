@@ -47,7 +47,7 @@ const HowItWorks = () => {
   };
 
   return (
-    <section className="pt-8 pb-16 lg:py-16 bg-white dark:bg-[#0f0e0e] text-text">
+    <section className="py-16 lg:py-20 bg-white dark:bg-[#0f0e0e] text-text">
       <div className="max-w-6xl mx-auto px-4 text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-4">
           How Servora Works – <span className="text-brand font-funnel-display">Fast, Easy, Reliable</span>
