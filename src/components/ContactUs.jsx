@@ -1,8 +1,13 @@
-import { Helmet } from "react-helmet";
 import { useState } from "react";
-import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import { Helmet } from "react-helmet";
+import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const ContactUs = () => {
+  const notifySuccess = (msg) => toast.success(<ToastSuccess msg={msg} />);
+  const ToastSuccess = ({ msg }) => (
+    <span className='text-lg text-green-600 font-semibold font-ibm leading-6'>{msg}</span>
+  );
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -15,8 +20,8 @@ const ContactUs = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    notifySuccess('Thank you! Your message is send to us.');
     console.log("Form submitted:", form);
-    // Integrate EmailJS, Formspree, or backend API here
     setForm({ name: "", email: "", message: "" });
   };
 
@@ -96,7 +101,7 @@ const ContactUs = () => {
             </div>
 
             {/* Contact Information */}
-            <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-8 flex flex-col justify-center gap-6">
+            <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-8 flex flex-col items-center justify-center gap-12">
               <div className="flex items-center gap-4">
                 <FaPhoneAlt className="text-brand text-xl" />
                 <div>
@@ -117,7 +122,7 @@ const ContactUs = () => {
                 <FaMapMarkerAlt className="text-brand text-xl" />
                 <div>
                   <h3 className="font-semibold">Address</h3>
-                  <p className="text-text/80 dark:text-text-muted">Dhaka, Bangladesh</p>
+                  <p className="text-text/80 dark:text-text-muted">Chattogram, Bangladesh</p>
                 </div>
               </div>
             </div>
