@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router";
 import EmptyState from "../components/EmptyState";
-import ServiceCard from "../components/ServiceCard";
-import Loader from '../components/ui/Loader';
+import SimpleLoader from '../components/ui/SimpleLoader';
+import PopularCard from "../components/ui/PopularCard";
 
 const Services = () => {
   const [services, setServices] = useState([]);
@@ -34,7 +34,6 @@ const Services = () => {
     setSearch(value);
     fetchServices(value);
   };
-  if (dataLoading) return <Loader />
 
   return (
     <>
@@ -62,20 +61,24 @@ const Services = () => {
           </div>
 
           {/* Services Grid */}
-          <div className="grid grid-cols-1 gap-10">
-            {services.length > 0 ? (
-              services.map((service) => (
-                <Link to={`/services/${service._id}`} key={service._id}>
-                  <ServiceCard service={service} variant="horizontal" />
-                </Link>
-              ))
-            ) : (
-              <EmptyState
-                title="No Service Found"
-                description="Sorry for the inconvenience!! We are working on it."
-              />
-            )}
-          </div>
+          {
+            dataLoading
+              ? <SimpleLoader />
+              : <div className="grid gap-8 sm:gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mx-8 sm:mx-6 xl:mx-0 my-16">
+                {services.length > 0 ? (
+                  services.map((service) => (
+                    <Link to={`/services/${service._id}`} key={service._id}>
+                      <PopularCard service={service} />
+                    </Link>
+                  ))
+                ) : (
+                  <EmptyState
+                    title="No Service Found"
+                    description="Sorry for the inconvenience!! We are working on it."
+                  />
+                )}
+              </div>
+          }
         </div>
       </section>
     </>

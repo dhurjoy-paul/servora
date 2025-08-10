@@ -28,17 +28,19 @@ const PopularServices = () => {
         Collect Your Awesome Deals Now
       </p>
 
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-w-7xl mx-auto">
-        {displayedServices.map((service, i) => (
-          <div
-            key={i}
-            data-aos="zoom-in"
-            data-aos-delay={i * 100}
-            data-aos-duration="600"
-          >
-            <PopularCard service={service} />
-          </div>
-        ))}
+      <div className="max-w-7xl mx-auto">
+        <div className="grid gap-8 sm:gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mx-8 sm:mx-6 xl:mx-0">
+          {displayedServices.map((service, i) => (
+            <div
+              key={i}
+              data-aos="zoom-in"
+              data-aos-delay={i * 100}
+              data-aos-duration="600"
+            >
+              <PopularCard service={service} />
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="flex justify-center mt-6" data-aos="fade-up" data-aos-delay="200">
